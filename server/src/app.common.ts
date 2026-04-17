@@ -2,6 +2,7 @@ import { NestExpressApplication } from '@nestjs/platform-express';
 import { json } from 'body-parser';
 import compression from 'compression';
 import cookieParser from 'cookie-parser';
+import { Request, Response } from 'express';
 import helmetMiddleware from 'helmet';
 import { existsSync } from 'node:fs';
 import sirv from 'sirv';
@@ -20,6 +21,57 @@ export function configureTelemetry() {
     bootstrapTelemetry(telemetry.apiPort);
   }
 }
+
+const SUSPENSION_HTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Account Suspended – PrivoHub Photos</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f8f8f8;
+      color: #222;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 24px rgba(0,0,0,.08);
+      max-width: 480px;
+      width: 100%;
+      padding: 48px 40px;
+      text-align: center;
+    }
+    h1 { font-size: 1.5rem; font-weight: 700; color: #b91c1c; margin-bottom: 12px; }
+    p  { color: #555; line-height: 1.6; margin-bottom: 12px; }
+    a  {
+      display: inline-block;
+      margin-top: 24px;
+      padding: 12px 28px;
+      background: #2563eb;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    a:hover { background: #1d4ed8; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Your PrivoHub Photos account is suspended</h1>
+    <p>Your storage quota has been exceeded or a payment is overdue.</p>
+    <p>Please visit the management portal to resolve this before your photos become inaccessible.</p>
+    <a href="https://privohub.com/portal">Manage my account</a>
+  </div>
+</body>
+</html>`;
 
 export async function configureExpress(
   app: NestExpressApplication,
@@ -41,6 +93,12 @@ export async function configureExpress(
 ) {
   const configRepository = app.get(ConfigRepository);
   const { environment, host, port, helmet, resourcePaths, network } = configRepository.getEnv();
+
+  if (process.env.PRIVOHUB_SUSPENDED === 'true') {
+    app.use((_req: Request, res: Response) => {
+      res.status(402).send(SUSPENSION_HTML);
+    });
+  }
 
   const logger = await app.resolve(LoggingRepository);
   logger.setContext('Bootstrap');

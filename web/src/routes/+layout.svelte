@@ -7,7 +7,6 @@
   import OnEvents from '$lib/components/OnEvents.svelte';
   import NavigationLoadingBar from '$lib/components/shared-components/navigation-loading-bar.svelte';
   import UploadPanel from '$lib/components/shared-components/upload-panel.svelte';
-  import VersionAnnouncement from '$lib/components/VersionAnnouncement.svelte';
   import { eventManager } from '$lib/managers/event-manager.svelte';
   import { serverConfigManager } from '$lib/managers/server-config-manager.svelte';
   import { themeManager } from '$lib/managers/theme-manager.svelte';
@@ -190,10 +189,8 @@
 <OnEvents {onWebsocketConnect} />
 
 <CommandPaletteDefaultProvider name="Global" actions={commands} />
-<VersionAnnouncement />
-
 <svelte:head>
-  <title>{page.data.meta?.title || 'Web'} - Immich</title>
+  <title>{page.data.meta?.title || 'Web'} - {$t('app_name')}</title>
   <link rel="manifest" href="/manifest.json" crossorigin="use-credentials" />
   <meta name="theme-color" content="white" media="(prefers-color-scheme: light)" />
   <meta name="theme-color" content="black" media="(prefers-color-scheme: dark)" />

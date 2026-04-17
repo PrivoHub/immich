@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Card, CardBody, CardHeader, Heading, immichLogo, Logo, VStack } from '@immich/ui';
   import type { Snippet } from 'svelte';
+  import { t } from 'svelte-i18n';
   interface Props {
     title?: string;
     children?: Snippet;
@@ -17,7 +18,7 @@
       <img
         src={immichLogo}
         class="max-w-(--breakpoint-md) mx-auto h-full mb-2 antialiased overflow-hidden"
-        alt="Immich logo"
+        alt={$t('app_name')}
       />
       <div
         class="w-full h-[99%] absolute start-0 top-0 backdrop-blur-[200px] bg-transparent dark:bg-immich-dark-bg/20"

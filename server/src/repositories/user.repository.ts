@@ -306,6 +306,16 @@ export class UserRepository {
       .execute();
   }
 
+  async getTotalAssetUsage(): Promise<number> {
+    const result = await this.db
+      .selectFrom('asset_exif')
+      .innerJoin('asset', 'asset.id', 'asset_exif.assetId')
+      .where('asset.libraryId', 'is', null)
+      .select((eb) => eb.fn.coalesce(eb.fn.sum<number>('asset_exif.fileSizeInByte'), eb.lit(0)).as('usedBytes'))
+      .executeTakeFirstOrThrow();
+    return Number(result.usedBytes);
+  }
+
   @GenerateSql({ params: [DummyValue.UUID] })
   async syncUsage(id?: string) {
     const query = this.db

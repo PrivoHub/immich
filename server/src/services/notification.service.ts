@@ -205,9 +205,9 @@ export class NotificationService extends BaseService {
   }
 
   @OnEvent({ name: 'UserSignup' })
-  async onUserSignup({ notify, id, password: password }: ArgOf<'UserSignup'>) {
+  async onUserSignup({ notify, id }: ArgOf<'UserSignup'>) {
     if (notify) {
-      await this.jobRepository.queue({ name: JobName.NotifyUserSignup, data: { id, password } });
+      await this.jobRepository.queue({ name: JobName.NotifyUserSignup, data: { id } });
     }
   }
 
@@ -271,20 +271,28 @@ export class NotificationService extends BaseService {
   }
 
   @OnJob({ name: JobName.NotifyUserSignup, queue: QueueName.Notification })
-  async handleUserSignup({ id, password }: JobOf<JobName.NotifyUserSignup>) {
+  async handleUserSignup({ id }: JobOf<JobName.NotifyUserSignup>) {
     const user = await this.userRepository.get(id, { withDeleted: false });
     if (!user) {
       return JobStatus.Skipped;
     }
 
-    const { server, templates } = await this.getConfig({ withCache: true });
+    const { server, oauth, templates } = await this.getConfig({ withCache: true });
+    const baseUrl = getExternalDomain(server);
+
+    // Build Keycloak registration URL from the configured OAuth issuer and client
+    const registrationUrl = new URL(`${oauth.issuerUrl}/protocol/openid-connect/registrations`);
+    registrationUrl.searchParams.set('client_id', oauth.clientId);
+    registrationUrl.searchParams.set('response_type', 'code');
+    registrationUrl.searchParams.set('redirect_uri', baseUrl);
+
     const { html, text } = await this.emailRepository.renderEmail({
       template: EmailTemplate.WELCOME,
       data: {
-        baseUrl: getExternalDomain(server),
+        baseUrl,
         displayName: user.name,
         username: user.email,
-        password,
+        registrationUrl: registrationUrl.toString(),
       },
       customTemplate: templates.email.welcomeTemplate,
     });
@@ -293,7 +301,7 @@ export class NotificationService extends BaseService {
       name: JobName.SendMail,
       data: {
         to: user.email,
-        subject: 'Welcome to Immich',
+        subject: 'Welcome to PrivoHub Photos',
         html,
         text,
       },
