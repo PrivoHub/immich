@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { Card, CardBody, CardHeader, Heading, immichLogo, Logo, VStack } from '@immich/ui';
+  import PrivoHubLogo from '$lib/components/shared-components/PrivoHubLogo.svelte';
+  import { Card, CardBody, CardHeader, Heading, VStack } from '@immich/ui';
   import type { Snippet } from 'svelte';
   import { t } from 'svelte-i18n';
   interface Props {
@@ -16,7 +17,7 @@
   {#if withBackdrop}
     <div class="absolute -z-10 w-full h-full flex place-items-center place-content-center">
       <img
-        src={immichLogo}
+        src="/logo.svg"
         class="max-w-(--breakpoint-md) mx-auto h-full mb-2 antialiased overflow-hidden"
         alt={$t('app_name')}
       />
@@ -30,7 +31,7 @@
     {#if withHeader}
       <CardHeader class="mt-6">
         <VStack>
-          <Logo variant="icon" size="giant" />
+          <PrivoHubLogo variant="icon" size="giant" />
           <Heading size="large" class="font-semibold" color="primary" tag="h1">{title}</Heading>
         </VStack>
       </CardHeader>

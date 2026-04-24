@@ -2,7 +2,7 @@
   import { serverConfigManager } from '$lib/managers/server-config-manager.svelte';
   import { user } from '$lib/stores/user.store';
   import { OnboardingRole } from '$lib/types';
-  import { Logo } from '@immich/ui';
+  import PrivoHubLogo from '$lib/components/shared-components/PrivoHubLogo.svelte';
   import { t } from 'svelte-i18n';
 
   let userRole = $derived(
@@ -11,7 +11,7 @@
 </script>
 
 <div class="gap-4">
-  <Logo variant="icon" size="giant" class="mb-2" />
+  <PrivoHubLogo variant="icon" size="giant" class="mb-2" />
   <p class="font-medium mb-6 text-6xl text-primary">
     {$t('onboarding_welcome_user', { values: { user: $user.name } })}
   </p>
