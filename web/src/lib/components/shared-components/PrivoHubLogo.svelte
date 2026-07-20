@@ -24,24 +24,24 @@
 
 {#if variant === 'inline'}
   <span class="inline-flex items-center gap-2.5 {className}" aria-label="PrivoHub Photos">
-    <svg height={h} width={h} viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink:0">
-      <rect width="28" height="28" rx="7" fill="#4250AF"/>
-      <path d="M14 6.5L20 9.2V14c0 3.6-2.6 6.3-6 7.8C10.6 20.3 8 17.6 8 14V9.2L14 6.5z" fill="white" opacity="0.9"/>
-      <circle cx="14" cy="14" r="2.5" fill="#4250AF" opacity="0.85"/>
+    <svg height={h} width={h} viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="flex-shrink:0">
+      <path d="M50 7 C50 7 74 15 83 18 C85 19 86 20 86 23 L86 49 C86 71 71 87 50 94 C29 87 14 71 14 49 L14 23 C14 20 15 19 17 18 C26 15 50 7 50 7 Z" fill="#6D5DD1"/>
+      <circle cx="62" cy="37" r="5.5" fill="#fff"/>
+      <path d="M27 66 L43 45 L53 58 L62 47 L75 66 Z" fill="#fff"/>
     </svg>
-    <span class="font-semibold text-[#4250AF] dark:text-white leading-none" style="font-size:{textSize}px">PrivoHub Photos</span>
+    <span class="font-semibold text-[#6D5DD1] dark:text-white leading-none" style="font-size:{textSize}px">PrivoHub Photos</span>
   </span>
 {:else}
   <svg
     height={h}
     width={h}
-    viewBox="0 0 28 28"
+    viewBox="0 0 100 100"
     xmlns="http://www.w3.org/2000/svg"
     class={className}
     aria-label="PrivoHub Photos"
   >
-    <rect width="28" height="28" rx="7" fill="#4250AF"/>
-    <path d="M14 6.5L20 9.2V14c0 3.6-2.6 6.3-6 7.8C10.6 20.3 8 17.6 8 14V9.2L14 6.5z" fill="white" opacity="0.9"/>
-    <circle cx="14" cy="14" r="2.5" fill="#4250AF" opacity="0.85"/>
+    <path d="M50 7 C50 7 74 15 83 18 C85 19 86 20 86 23 L86 49 C86 71 71 87 50 94 C29 87 14 71 14 49 L14 23 C14 20 15 19 17 18 C26 15 50 7 50 7 Z" fill="#6D5DD1"/>
+    <circle cx="62" cy="37" r="5.5" fill="#fff"/>
+    <path d="M27 66 L43 45 L53 58 L62 47 L75 66 Z" fill="#fff"/>
   </svg>
 {/if}

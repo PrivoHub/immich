@@ -65,24 +65,6 @@ export class ServerService extends BaseService {
   }
 
   async getStorage(): Promise<ServerStorageResponseDto> {
-    const quotaGb = Number(process.env.PRIVOHUB_QUOTA_GB);
-    if (quotaGb > 0) {
-      const usedBytes = await this.userRepository.getTotalAssetUsage();
-      const totalBytes = quotaGb * 1024 * 1024 * 1024;
-      const availableBytes = Math.max(0, totalBytes - usedBytes);
-      const usagePercentage = Number.parseFloat(((usedBytes / totalBytes) * 100).toFixed(2));
-
-      const serverInfo = new ServerStorageResponseDto();
-      serverInfo.diskSize = asHumanReadable(totalBytes);
-      serverInfo.diskUse = asHumanReadable(usedBytes);
-      serverInfo.diskAvailable = asHumanReadable(availableBytes);
-      serverInfo.diskSizeRaw = totalBytes;
-      serverInfo.diskUseRaw = usedBytes;
-      serverInfo.diskAvailableRaw = availableBytes;
-      serverInfo.diskUsagePercentage = usagePercentage;
-      return serverInfo;
-    }
-
     const libraryBase = StorageCore.getBaseFolder(StorageFolder.Library);
     const diskInfo = await this.storageRepository.checkDiskUsage(libraryBase);
 
