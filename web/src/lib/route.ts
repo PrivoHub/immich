@@ -62,9 +62,6 @@ export const Route = {
   viewAlbumAsset: ({ albumId, assetId }: { albumId: string; assetId: string }) =>
     `/albums/${albumId}/photos/${assetId}`,
 
-  // buy
-  buy: () => '/buy',
-
   // explore
   explore: () => '/explore',
   places: () => '/places',
@@ -133,7 +130,6 @@ export const Route = {
 
   // users
   users: () => '/admin/users',
-  newUser: () => `/admin/users/new`,
   viewUser: ({ id }: { id: string }) => `/admin/users/${id}`,
   editUser: ({ id }: { id: string }) => `/admin/users/${id}/edit`,
 

@@ -4,7 +4,6 @@ import { eventManager } from '$lib/managers/event-manager.svelte';
 import { Route } from '$lib/route';
 import { maintenanceStore } from '$lib/stores/maintenance.store';
 import { notificationManager } from '$lib/stores/notification-manager.svelte';
-import type { ReleaseEvent } from '$lib/types';
 import { createEventEmitter } from '$lib/utils/eventemitter';
 import {
   MaintenanceAction,
@@ -35,7 +34,6 @@ export interface Events {
   on_person_thumbnail: (personId: string) => void;
   on_server_version: (serverVersion: ServerVersionResponseDto) => void;
   on_config_update: () => void;
-  on_new_release: (event: ReleaseEvent) => void;
   on_session_delete: (sessionId: string) => void;
   on_notification: (notification: NotificationDto) => void;
 
@@ -78,7 +76,6 @@ websocket
       });
     }
   })
-  .on('on_new_release', (event) => eventManager.emit('ReleaseEvent', event))
   .on('on_session_delete', () => authManager.logout())
   .on('on_user_delete', (id) => eventManager.emit('UserAdminDeleted', { id }))
   .on('on_asset_update', (asset) => eventManager.emit('AssetUpdate', asset))

@@ -10,7 +10,7 @@ import { Server, Socket } from 'socket.io';
 import { AssetResponseDto } from 'src/dtos/asset-response.dto';
 import { AuthDto } from 'src/dtos/auth.dto';
 import { NotificationDto } from 'src/dtos/notification.dto';
-import { ReleaseNotification, ServerVersionResponseDto } from 'src/dtos/server.dto';
+import { ServerVersionResponseDto } from 'src/dtos/server.dto';
 import { SyncAssetEditV1, SyncAssetExifV1, SyncAssetV1 } from 'src/dtos/sync.dto';
 import { AppRestartEvent, ArgsOf, EventRepository } from 'src/repositories/event.repository';
 import { LoggingRepository } from 'src/repositories/logging.repository';
@@ -31,7 +31,6 @@ export interface ClientEventMap {
   on_person_thumbnail: [string];
   on_server_version: [ServerVersionResponseDto];
   on_config_update: [];
-  on_new_release: [ReleaseNotification];
   on_notification: [NotificationDto];
   on_session_delete: [string];
 

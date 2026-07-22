@@ -6,6 +6,16 @@ import { ApiTag, AudioCodec, DatabaseExtension, ExifOrientation, VectorIndex } f
 
 export const IMMICH_SERVER_START = 'Immich Server is listening';
 
+/**
+ * Fixed storage layout for this deployment. Originals land under
+ * `library/{storageLabel or user id}/`, so each user keeps a separate, readable tree
+ * and an export mirrors that layout instead of opaque upload UUIDs.
+ *
+ * Applied in `utils/config.ts: buildConfig`, the only path to a SystemConfig, so
+ * neither a stored row nor `PUT /api/system-config` can change it.
+ */
+export const PRIVOHUB_STORAGE_TEMPLATE = '{{y}}/{{y}}-{{MM}}-{{dd}}/{{filename}}';
+
 export const ErrorMessages = {
   InconsistentMediaLocation:
     'Detected an inconsistent media location. For more information, see https://docs.immich.app/errors#inconsistent-media-location',

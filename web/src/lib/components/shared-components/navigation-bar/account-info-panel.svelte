@@ -6,9 +6,10 @@
   import { Route } from '$lib/route';
   import { user } from '$lib/stores/user.store';
   import { userInteraction } from '$lib/stores/user.svelte';
+  import { openPortal } from '$lib/utils/privohub';
   import { getAboutInfo, type ServerAboutResponseDto } from '@immich/sdk';
   import { Button, Icon, IconButton, modalManager } from '@immich/ui';
-  import { mdiCog, mdiLogout, mdiPencil, mdiWrench } from '@mdi/js';
+  import { mdiCog, mdiLogout, mdiOpenInNew, mdiPencil, mdiWrench } from '@mdi/js';
   import { onMount } from 'svelte';
   import { t } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
@@ -74,6 +75,22 @@
         <div class="flex place-content-center place-items-center text-center gap-2 px-2">
           <Icon icon={mdiCog} size="18" aria-hidden />
           {$t('account_settings')}
+        </div>
+      </Button>
+      <Button
+        onclick={() => {
+          onClose();
+          openPortal();
+        }}
+        size="small"
+        color="secondary"
+        variant="ghost"
+        shape="round"
+        class="border dark:border-immich-dark-gray dark:bg-gray-500 dark:hover:bg-immich-dark-primary/50 hover:bg-immich-primary/10 dark:text-white"
+      >
+        <div class="flex place-content-center place-items-center text-center gap-2 px-2">
+          <Icon icon={mdiOpenInNew} size="18" aria-hidden />
+          {$t('privohub_portal')}
         </div>
       </Button>
       {#if $user.isAdmin}

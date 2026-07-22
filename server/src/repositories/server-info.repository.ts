@@ -7,21 +7,6 @@ import sharp from 'sharp';
 import { ConfigRepository } from 'src/repositories/config.repository';
 import { LoggingRepository } from 'src/repositories/logging.repository';
 
-export interface GitHubRelease {
-  id: number;
-  url: string;
-  tag_name: string;
-  name: string;
-  created_at: string;
-  published_at: string;
-  body: string;
-}
-
-export interface VersionResponse {
-  version: string;
-  published_at: string;
-}
-
 export interface ServerBuildVersions {
   nodejs: string;
   ffmpeg: string;
@@ -62,21 +47,6 @@ export class ServerInfoRepository {
     private logger: LoggingRepository,
   ) {
     this.logger.setContext(ServerInfoRepository.name);
-  }
-
-  async getLatestRelease(): Promise<VersionResponse> {
-    try {
-      const { versionCheck } = this.configRepository.getEnv();
-      const response = await fetch(versionCheck.url);
-
-      if (!response.ok) {
-        throw new Error(`Version check request failed with status ${response.status}: ${await response.text()}`);
-      }
-
-      return response.json();
-    } catch (error) {
-      throw new Error('Failed to fetch latest release', { cause: error });
-    }
   }
 
   buildVersions?: ServerBuildVersions;

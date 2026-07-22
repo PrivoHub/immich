@@ -237,11 +237,3 @@ export class ServerFeaturesDto {
   @ApiProperty({ description: 'Whether OCR is enabled' })
   ocr!: boolean;
 }
-
-export interface ReleaseNotification {
-  isAvailable: boolean;
-  /** ISO8601 */
-  checkedAt: string;
-  serverVersion: ServerVersionResponseDto;
-  releaseVersion: ServerVersionResponseDto;
-}

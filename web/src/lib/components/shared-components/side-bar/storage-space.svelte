@@ -5,6 +5,7 @@
   import { userInteraction } from '$lib/stores/user.svelte';
   import { requestServerInfo } from '$lib/utils/auth';
   import { getByteUnitString } from '$lib/utils/byte-units';
+  import { openPortal } from '$lib/utils/privohub';
   import { Button, LoadingSpinner, Meter, modalManager } from '@immich/ui';
   import { onMount } from 'svelte';
   import { t } from 'svelte-i18n';
@@ -23,6 +24,10 @@
   let sessionPrompted = false;
 
   const openUpgradeModal = () => modalManager.show(UpgradePlanModal, { usedPercentage: Math.round(usedRatio * 100) });
+
+  // The portal's storage page is where storage is managed; the prompt above deep links
+  // straight into it.
+  const openManagePlan = () => openPortal('/storage');
 
   // Prompt the user to upgrade once per browser session when storage hits 90%.
   $effect(() => {
@@ -70,6 +75,9 @@
         {$t('upgrade_storage_action')}
       </Button>
     {/if}
+    <button type="button" class="mt-2 w-full text-center text-xs text-primary underline" onclick={openManagePlan}>
+      {$t('manage_plan')}
+    </button>
   {:else}
     <p class="font-medium text-immich-dark-gray dark:text-white mb-4">{$t('storage')}</p>
     <LoadingSpinner />

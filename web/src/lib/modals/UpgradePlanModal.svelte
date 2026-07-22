@@ -1,5 +1,6 @@
 <script lang="ts">
   import PrivoHubModal from '$lib/modals/PrivoHubModal.svelte';
+  import { openPortal } from '$lib/utils/privohub';
   import { Button, ModalBody, ModalFooter, Text } from '@immich/ui';
   import { t } from 'svelte-i18n';
 
@@ -11,7 +12,7 @@
   let { onClose, usedPercentage = 90 }: Props = $props();
 
   const upgrade = () => {
-    window.open('https://privohub.com/portal?changePlan', '_blank', 'noopener,noreferrer');
+    openPortal('?changePlan');
     onClose();
   };
 </script>

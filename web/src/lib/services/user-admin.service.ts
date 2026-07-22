@@ -9,41 +9,42 @@ import { user as authUser } from '$lib/stores/user.store';
 import type { HeaderButtonActionItem } from '$lib/types';
 import { handleError } from '$lib/utils/handle-error';
 import { getFormatter } from '$lib/utils/i18n';
+import { openPortal } from '$lib/utils/privohub';
 import {
-  createUserAdmin,
   deleteUserAdmin,
   restoreUserAdmin,
   updateUserAdmin,
   UserStatus,
-  type UserAdminCreateDto,
   type UserAdminDeleteDto,
   type UserAdminResponseDto,
   type UserAdminUpdateDto,
 } from '@immich/sdk';
 import { modalManager, toastManager, type ActionItem } from '@immich/ui';
 import {
+  mdiAccountMultipleOutline,
   mdiDeleteRestore,
   mdiInformationOutline,
   mdiLockReset,
   mdiLockSmart,
   mdiPencilOutline,
-  mdiPlusBoxOutline,
   mdiTrashCanOutline,
 } from '@mdi/js';
 import { DateTime } from 'luxon';
 import type { MessageFormatter } from 'svelte-i18n';
 import { get } from 'svelte/store';
 
+// Accounts are not created here. Users are provisioned externally through the identity
+// provider, and password login is disabled on this deployment, so an account created
+// locally could never sign in. The action links out to where access is managed instead.
 export const getUserAdminsActions = ($t: MessageFormatter) => {
-  const Create: ActionItem = {
-    title: $t('create_user'),
+  const ManageAccess: ActionItem = {
+    title: $t('manage_access'),
     type: $t('command'),
-    icon: mdiPlusBoxOutline,
-    onAction: () => goto(Route.newUser()),
-    shortcuts: { shift: true, key: 'n' },
+    icon: mdiAccountMultipleOutline,
+    onAction: () => openPortal('/members'),
   };
 
-  return { Create };
+  return { ManageAccess };
 };
 
 export const getUserAdminActions = ($t: MessageFormatter, user: UserAdminResponseDto) => {
@@ -101,19 +102,6 @@ export const getUserAdminActions = ($t: MessageFormatter, user: UserAdminRespons
   };
 
   return { Detail, Update, Delete, Restore, ResetPassword, ResetPinCode };
-};
-
-export const handleCreateUserAdmin = async (dto: UserAdminCreateDto) => {
-  const $t = await getFormatter();
-
-  try {
-    const response = await createUserAdmin({ userAdminCreateDto: dto });
-    eventManager.emit('UserAdminCreate', response);
-    toastManager.primary();
-    return response;
-  } catch (error) {
-    handleError(error, $t('errors.unable_to_create_user'));
-  }
 };
 
 export const handleUpdateUserAdmin = async (user: UserAdminResponseDto, dto: UserAdminUpdateDto) => {

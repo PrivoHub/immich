@@ -1,13 +1,11 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { page } from '$app/state';
-  import OnboardingBackup from '$lib/components/onboarding-page/onboarding-backup.svelte';
   import OnboardingCard from '$lib/components/onboarding-page/onboarding-card.svelte';
   import OnboardingHello from '$lib/components/onboarding-page/onboarding-hello.svelte';
   import OnboardingLocale from '$lib/components/onboarding-page/onboarding-language.svelte';
   import OnboardingMobileApp from '$lib/components/onboarding-page/onboarding-mobile-app.svelte';
   import OnboardingServerPrivacy from '$lib/components/onboarding-page/onboarding-server-privacy.svelte';
-  import OnboardingStorageTemplate from '$lib/components/onboarding-page/onboarding-storage-template.svelte';
   import OnboardingTheme from '$lib/components/onboarding-page/onboarding-theme.svelte';
   import OnboardingUserPrivacy from '$lib/components/onboarding-page/onboarding-user-privacy.svelte';
   import { serverConfigManager } from '$lib/managers/server-config-manager.svelte';
@@ -18,8 +16,6 @@
   import { setUserOnboarding, updateAdminOnboarding } from '@immich/sdk';
   import {
     mdiCellphoneArrowDownVariant,
-    mdiCloudCheckOutline,
-    mdiHarddisk,
     mdiIncognito,
     mdiThemeLightDark,
     mdiTranslate,
@@ -32,7 +28,6 @@
     component:
       | typeof OnboardingHello
       | typeof OnboardingTheme
-      | typeof OnboardingStorageTemplate
       | typeof OnboardingServerPrivacy
       | typeof OnboardingUserPrivacy
       | typeof OnboardingMobileApp
@@ -71,20 +66,6 @@
       role: OnboardingRole.USER,
       title: $t('user_privacy'),
       icon: mdiIncognito,
-    },
-    {
-      name: 'storage_template',
-      component: OnboardingStorageTemplate,
-      role: OnboardingRole.SERVER,
-      title: $t('admin.storage_template_settings'),
-      icon: mdiHarddisk,
-    },
-    {
-      name: 'backup',
-      component: OnboardingBackup,
-      role: OnboardingRole.SERVER,
-      title: $t('admin.backup_onboarding_title'),
-      icon: mdiCloudCheckOutline,
     },
     {
       name: 'mobile_app',

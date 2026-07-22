@@ -66,7 +66,6 @@ export enum OpenQueryParam {
   JOB = 'job',
   STORAGE_TEMPLATE = 'storage-template',
   NOTIFICATIONS = 'notifications',
-  PURCHASE_SETTINGS = 'user-purchase-settings',
 }
 
 export const maximumLengthSearchPeople = 1000;
@@ -342,11 +341,6 @@ export const langs: Lang[] = [
   },
   { name: 'Development (keys only)', code: 'dev', loader: () => Promise.resolve({ default: {} }) },
 ];
-
-export enum ImmichProduct {
-  Client = 'immich-client',
-  Server = 'immich-server',
-}
 
 export enum SettingInputFieldType {
   EMAIL = 'email',

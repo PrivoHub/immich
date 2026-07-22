@@ -1,5 +1,4 @@
 import type { ThemeSetting } from '$lib/managers/theme-manager.svelte';
-import type { ReleaseEvent } from '$lib/types';
 import { BaseEventManager } from '$lib/utils/base-event-manager.svelte';
 import type { TreeNode } from '$lib/utils/tree-utils';
 import type {
@@ -67,7 +66,6 @@ export type Events = {
 
   UserPinCodeReset: [];
 
-  UserAdminCreate: [UserAdminResponseDto];
   UserAdminUpdate: [UserAdminResponseDto];
   UserAdminRestore: [UserAdminResponseDto];
   // soft deleted
@@ -86,8 +84,6 @@ export type Events = {
   WorkflowCreate: [WorkflowResponseDto];
   WorkflowUpdate: [WorkflowResponseDto];
   WorkflowDelete: [WorkflowResponseDto];
-
-  ReleaseEvent: [ReleaseEvent];
 
   WebsocketConnect: [];
 };
