@@ -57,7 +57,7 @@ export class NotificationAdminService extends BaseService {
   }
 
   async getTemplate(name: EmailTemplate, customTemplate: string) {
-    const { server, templates } = await this.getConfig({ withCache: false });
+    const { server, oauth, templates } = await this.getConfig({ withCache: false });
 
     let templateResponse: string;
 
@@ -69,7 +69,7 @@ export class NotificationAdminService extends BaseService {
             baseUrl: getExternalDomain(server),
             displayName: 'John Doe',
             username: 'john@doe.com',
-            password: 'thisIsAPassword123',
+            registrationUrl: `${oauth.issuerUrl}/protocol/openid-connect/registrations?client_id=${oauth.clientId}&response_type=code&redirect_uri=${getExternalDomain(server)}`,
           },
           customTemplate: customTemplate || templates.email.welcomeTemplate,
         });

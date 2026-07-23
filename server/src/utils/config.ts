@@ -2,6 +2,7 @@ import AsyncLock from 'async-lock';
 import { load as loadYaml } from 'js-yaml';
 import { cloneDeep, get, isEmpty, isEqual, set } from 'lodash-es';
 import type { DeepPartial } from 'src/types.js';
+import { PRIVOHUB_STORAGE_TEMPLATE } from 'src/constants.js';
 import { AdminConfigDto, SystemConfig, defaults } from 'src/dtos/config.dto.js';
 import { DatabaseLock, SystemMetadataKey } from 'src/enum.js';
 import { ConfigRepository } from 'src/repositories/config.repository.js';
@@ -132,6 +133,16 @@ const buildConfig = async (repos: RepoDeps) => {
   if (!config.ffmpeg.acceptedAudioCodecs.includes(config.ffmpeg.targetAudioCodec)) {
     config.ffmpeg.acceptedAudioCodecs.push(config.ffmpeg.targetAudioCodec);
   }
+
+  // The storage layout is fixed for this deployment. Every path to a SystemConfig runs
+  // through here, so applying it after the merge covers the admin API, a row written
+  // before this shipped, and any future UI, instead of trusting a hidden setting to stay
+  // hidden. The admin panel and the onboarding step are removed from the web app to match.
+  config.storageTemplate = {
+    enabled: true,
+    hashVerificationEnabled: true,
+    template: PRIVOHUB_STORAGE_TEMPLATE,
+  };
 
   return config;
 };

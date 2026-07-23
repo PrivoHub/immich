@@ -53,7 +53,7 @@ export interface TestEmailProps extends BaseEmailProps {
 export interface WelcomeEmailProps extends BaseEmailProps {
   displayName: string;
   username: string;
-  password?: string;
+  registrationUrl: string;
 }
 
 export interface AlbumInviteEmailProps extends BaseEmailProps {

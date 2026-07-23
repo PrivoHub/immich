@@ -2,6 +2,7 @@ import { CronExpression } from '@nestjs/schedule';
 import { validateCronExpression } from 'cron';
 import { createZodDto } from 'nestjs-zod';
 import z from 'zod';
+import { PRIVOHUB_STORAGE_TEMPLATE } from 'src/constants.js';
 import type { DeepPartial } from 'src/types.js';
 import {
   AudioCodec,
@@ -688,9 +689,11 @@ export const defaults = Object.freeze<SystemConfig>({
     enabled: true,
   },
   storageTemplate: {
-    enabled: false,
+    // Fixed for this deployment, not a per-user setting. See PRIVOHUB_STORAGE_TEMPLATE
+    // and the override in utils/config.ts, which is what actually makes it stick.
+    enabled: true,
     hashVerificationEnabled: true,
-    template: '{{y}}/{{y}}-{{MM}}-{{dd}}/{{filename}}',
+    template: PRIVOHUB_STORAGE_TEMPLATE,
   },
   image: {
     thumbnail: {
@@ -715,7 +718,7 @@ export const defaults = Object.freeze<SystemConfig>({
     },
   },
   newVersionCheck: {
-    enabled: true,
+    enabled: false,
     channel: ReleaseChannel.Stable,
   },
   nightlyTasks: {
