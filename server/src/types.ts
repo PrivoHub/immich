@@ -293,9 +293,7 @@ export interface IEmailJob {
   imageAttachments?: EmailImageAttachment[];
 }
 
-export interface INotifySignupJob extends IEntityJob {
-  password?: string;
-}
+export type INotifySignupJob = IEntityJob;
 
 export interface INotifyAlbumInviteJob extends IEntityJob {
   recipientId: string;

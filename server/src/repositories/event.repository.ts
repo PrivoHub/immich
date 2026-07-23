@@ -82,7 +82,7 @@ type EventMap = {
   StackDeleteAll: [{ stackIds: string[]; userId: string }];
 
   // user events
-  UserSignup: [{ notify: boolean; id: string; password?: string }];
+  UserSignup: [{ notify: boolean; id: string }];
   UserCreate: [UserEvent];
   /** user is soft deleted */
   UserTrash: [UserEvent];

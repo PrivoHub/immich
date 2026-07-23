@@ -185,7 +185,7 @@ const updatedConfig = Object.freeze<SystemConfig>({
     publicUsers: true,
   },
   storageTemplate: {
-    enabled: false,
+    enabled: true,
     hashVerificationEnabled: true,
     template: '{{y}}/{{y}}-{{MM}}-{{dd}}/{{filename}}',
   },
