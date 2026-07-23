@@ -5,11 +5,11 @@ import ImmichLayout from 'src/emails/components/immich.layout';
 import { WelcomeEmailProps } from 'src/repositories/email.repository';
 import { replaceTemplateTags } from 'src/utils/replace-template-tags';
 
-export const WelcomeEmail = ({ baseUrl, displayName, username, password, customTemplate }: WelcomeEmailProps) => {
+export const WelcomeEmail = ({ baseUrl, displayName, username, registrationUrl, customTemplate }: WelcomeEmailProps) => {
   const usableTemplateVariables = {
     displayName,
     username,
-    password,
+    registrationUrl,
     baseUrl,
   };
 
@@ -21,24 +21,16 @@ export const WelcomeEmail = ({ baseUrl, displayName, username, password, customT
         Hey <strong>{displayName}</strong>!
       </Text>
 
-      <Text>A new account has been created for you.</Text>
+      <Text>You have been invited to PrivoHub Photos. Click the button below to create your account and get started.</Text>
 
       <Text>
-        <strong>Username</strong>: {username}
-        {password && (
-          <>
-            <br />
-            <strong>Password</strong>: {password}
-          </>
-        )}
+        <strong>Email</strong>: {username}
       </Text>
     </>
   );
 
   return (
-    <ImmichLayout
-      preview={customTemplate ? emailContent.toString() : 'You have been invited to a new Immich instance.'}
-    >
+    <ImmichLayout preview={customTemplate ? emailContent.toString() : `You've been invited to PrivoHub Photos.`}>
       {customTemplate && (
         <Text className="m-0">
           <div dangerouslySetInnerHTML={{ __html: emailContent }}></div>
@@ -48,23 +40,23 @@ export const WelcomeEmail = ({ baseUrl, displayName, username, password, customT
       {!customTemplate && emailContent}
 
       <Section className="flex justify-center my-6">
-        <ImmichButton href={`${baseUrl}/auth/login`}>Login</ImmichButton>
+        <ImmichButton href={registrationUrl}>Create Account</ImmichButton>
       </Section>
 
       <Text className="text-xs">
-        If you cannot click the button use the link below to proceed with first login.
+        If you cannot click the button, use the link below to create your account.
         <br />
-        <Link href={baseUrl}>{baseUrl}</Link>
+        <Link href={registrationUrl}>{registrationUrl}</Link>
       </Text>
     </ImmichLayout>
   );
 };
 
 WelcomeEmail.PreviewProps = {
-  baseUrl: 'https://demo.immich.app/auth/login',
+  baseUrl: 'https://photos-demo.privohub.com',
   displayName: 'Alan Turing',
-  username: 'alanturing@immich.app',
-  password: 'mysuperpassword',
+  username: 'alanturing@example.com',
+  registrationUrl: 'https://auth.privohub.com/realms/privohub/protocol/openid-connect/registrations?client_id=immich-demo&response_type=code&redirect_uri=https://photos-demo.privohub.com',
 } as WelcomeEmailProps;
 
 export default WelcomeEmail;

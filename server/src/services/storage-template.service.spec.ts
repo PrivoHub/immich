@@ -95,19 +95,14 @@ describe(StorageTemplateService.name, () => {
   });
 
   describe('handleMigrationSingle', () => {
-    it('should skip when storage template is disabled', async () => {
+    // storageTemplate is applied in buildConfig, so a stored `enabled: false` (an old
+    // row, or an admin PUT) is ignored and the migration still runs.
+    it('should run even when a stored config tries to disable the template', async () => {
       mocks.systemMetadata.get.mockResolvedValue({ storageTemplate: { enabled: false } });
 
-      await expect(sut.handleMigrationSingle({ id: testAsset.id })).resolves.toBe(JobStatus.Skipped);
+      await expect(sut.handleMigrationSingle({ id: testAsset.id })).resolves.not.toBe(JobStatus.Skipped);
 
-      expect(mocks.asset.getByIds).not.toHaveBeenCalled();
-      expect(mocks.storage.checkFileExists).not.toHaveBeenCalled();
-      expect(mocks.storage.rename).not.toHaveBeenCalled();
-      expect(mocks.storage.copyFile).not.toHaveBeenCalled();
-      expect(mocks.asset.update).not.toHaveBeenCalled();
-      expect(mocks.move.create).not.toHaveBeenCalled();
-      expect(mocks.move.update).not.toHaveBeenCalled();
-      expect(mocks.storage.stat).not.toHaveBeenCalled();
+      expect(mocks.assetJob.getForStorageTemplateJob).toHaveBeenCalledWith(testAsset.id);
     });
 
     it('should migrate single moving picture', async () => {

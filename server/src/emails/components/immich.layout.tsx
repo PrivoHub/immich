@@ -1,4 +1,4 @@
-import { Body, Container, Font, Head, Hr, Html, Img, Preview, Section, Tailwind, Text } from '@react-email/components';
+import { Body, Container, Font, Head, Hr, Html, Preview, Section, Tailwind, Text } from '@react-email/components';
 import * as React from 'react';
 import { ImmichFooter } from 'src/emails/components/footer.template';
 
@@ -48,11 +48,9 @@ export const ImmichLayout = ({ children, preview }: ImmichLayoutProps) => (
         <Container className="my-[40px] mx-auto max-w-[465px]">
           <Section className="my-6 p-12 border border-red-400 rounded-[50px] bg-gray-50">
             <Section className="flex justify-center mb-12">
-              <Img
-                src="https://immich.app/img/immich-logo-inline-light.png"
-                className="h-12 antialiased rounded-none w-full"
-                alt="Immich"
-              />
+              <Text className="text-center text-2xl font-bold text-[#4250AF] m-0 tracking-tight">
+                PrivoHub Photos
+              </Text>
             </Section>
 
             {children}
