@@ -2,12 +2,11 @@
   import { goto } from '$app/navigation';
   import AuthPageLayout from '$lib/components/layouts/AuthPageLayout.svelte';
   import { eventManager } from '$lib/managers/event-manager.svelte';
-  import { serverConfigManager } from '$lib/managers/server-config-manager.svelte';
   import { Route } from '$lib/route';
   import { oauth } from '$lib/utils';
   import { getServerErrorMessage, handleError } from '$lib/utils/handle-error';
-  import { login, type LoginResponseDto } from '@immich/sdk';
-  import { Alert, Button, Field, Input, PasswordInput, Stack } from '@immich/ui';
+  import { type LoginResponseDto } from '@immich/sdk';
+  import { Alert, Button, Stack } from '@immich/ui';
   import { onMount } from 'svelte';
   import { t } from 'svelte-i18n';
   import type { PageData } from './$types';
@@ -18,14 +17,10 @@
 
   let { data }: Props = $props();
 
-  let errorMessage: string = $state('');
-  let email = $state('');
-  let password = $state('');
   let oauthError = $state('');
   let loading = $state(false);
   let oauthLoading = $state(true);
 
-  const serverConfig = $derived(serverConfigManager.value);
   const publicConfig = $derived(data.publicConfig);
 
   const onSuccess = async (user: LoginResponseDto) => {
@@ -33,7 +28,6 @@
     eventManager.emit('AuthLogin', user);
   };
 
-  const onFirstLogin = () => goto(Route.changePassword());
   const onOnboarding = () => goto(Route.onboarding());
 
   onMount(async () => {
@@ -77,39 +71,6 @@
     oauthLoading = false;
   });
 
-  const handleLogin = async () => {
-    try {
-      errorMessage = '';
-      loading = true;
-      const user = await login({ loginCredentialDto: { email, password } });
-
-      if (user.isAdmin && !serverConfig.isOnboarded) {
-        await onOnboarding();
-        return;
-      }
-
-      // change the user password before we onboard them
-      if (!user.isAdmin && user.shouldChangePassword) {
-        await onFirstLogin();
-        return;
-      }
-
-      // We want to onboard after the first login since their password will change
-      // and handleLogin will be called again (relogin). We then do onboarding on that next call.
-      if (!user.isOnboarded) {
-        await onOnboarding();
-        return;
-      }
-
-      await onSuccess(user);
-      return;
-    } catch (error) {
-      errorMessage = getServerErrorMessage(error) || $t('errors.incorrect_email_or_password');
-      loading = false;
-      return;
-    }
-  };
-
   const handleOAuthLogin = async () => {
     oauthLoading = true;
     oauthError = '';
@@ -120,10 +81,6 @@
     }
   };
 
-  const onsubmit = async (event: Event) => {
-    event.preventDefault();
-    await handleLogin();
-  };
 </script>
 
 <AuthPageLayout title={data.meta.title}>
@@ -135,52 +92,22 @@
       </Alert>
     {/if}
 
-    {#if !oauthLoading && publicConfig.passwordLogin.enabled}
-      <form {onsubmit} class="flex flex-col gap-4">
-        {#if errorMessage}
-          <Alert color="danger" title={errorMessage} closable />
-        {/if}
-
-        <Field label={$t('email')} required="indicator">
-          <Input id="email" name="email" type="email" autocomplete="email" bind:value={email} />
-        </Field>
-
-        <Field label={$t('password')} required="indicator">
-          <PasswordInput id="password" bind:value={password} autocomplete="current-password" />
-        </Field>
-
-        <Button type="submit" size="large" shape="round" fullWidth {loading} class="mt-6">{$t('to_login')}</Button>
-      </form>
+    {#if oauthError}
+      <Alert color="danger" title={oauthError} closable />
     {/if}
-
     {#if publicConfig.oauth.enabled}
-      {#if publicConfig.passwordLogin.enabled}
-        <div class="my-4 inline-flex w-full items-center justify-center">
-          <hr class="my-4 h-px w-3/4 border-0 bg-gray-200 dark:bg-gray-600" />
-          <span
-            class="absolute inset-s-1/2 -translate-x-1/2 bg-gray-50 px-3 font-medium text-gray-900 uppercase dark:bg-neutral-900 dark:text-white"
-          >
-            {$t('or')}
-          </span>
-        </div>
-      {/if}
-      {#if oauthError}
-        <Alert color="danger" title={oauthError} closable />
-      {/if}
       <Button
         shape="round"
         loading={loading || oauthLoading}
         disabled={loading || oauthLoading}
         size="large"
         fullWidth
-        color={publicConfig.passwordLogin.enabled ? 'secondary' : 'primary'}
+        color="primary"
         onclick={handleOAuthLogin}
       >
         {publicConfig.oauth.buttonText}
       </Button>
-    {/if}
-
-    {#if !publicConfig.passwordLogin.enabled && !publicConfig.oauth.enabled}
+    {:else}
       <Alert color="warning" title={$t('login_has_been_disabled')} />
     {/if}
   </Stack>

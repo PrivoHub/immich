@@ -1,13 +1,11 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
   import { page } from '$app/state';
-  import OnboardingBackup from './OnboardingBackup.svelte';
   import OnboardingCard from './OnboardingCard.svelte';
   import OnboardingHello from './OnboardingHello.svelte';
   import OnboardingLocale from './OnboardingLanguage.svelte';
   import OnboardingMobileApp from './OnboardingMobileApp.svelte';
   import OnboardingServerPrivacy from './OnboardingServerPrivacy.svelte';
-  import OnboardingStorageTemplate from './OnboardingStorageTemplate.svelte';
   import OnboardingTheme from './OnboardingTheme.svelte';
   import OnboardingUserPrivacy from './OnboardingUserPrivacy.svelte';
   import { authManager } from '$lib/managers/auth-manager.svelte';
@@ -18,8 +16,6 @@
   import { setUserOnboarding, updateAdminOnboarding } from '@immich/sdk';
   import {
     mdiCellphoneArrowDownVariant,
-    mdiCloudCheckOutline,
-    mdiHarddisk,
     mdiIncognito,
     mdiThemeLightDark,
     mdiTranslate,
@@ -32,7 +28,6 @@
     component:
       | typeof OnboardingHello
       | typeof OnboardingTheme
-      | typeof OnboardingStorageTemplate
       | typeof OnboardingServerPrivacy
       | typeof OnboardingUserPrivacy
       | typeof OnboardingMobileApp
@@ -71,20 +66,6 @@
       role: OnboardingRole.USER,
       title: $t('user_privacy'),
       icon: mdiIncognito,
-    },
-    {
-      name: 'storage_template',
-      component: OnboardingStorageTemplate,
-      role: OnboardingRole.SERVER,
-      title: $t('admin.storage_template_settings'),
-      icon: mdiHarddisk,
-    },
-    {
-      name: 'backup',
-      component: OnboardingBackup,
-      role: OnboardingRole.SERVER,
-      title: $t('admin.backup_onboarding_title'),
-      icon: mdiCloudCheckOutline,
     },
     {
       name: 'mobile_app',

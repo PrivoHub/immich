@@ -5,25 +5,28 @@
   import { Route } from '$lib/route';
   import { handleError } from '$lib/utils/handle-error';
   import { signUpAdmin } from '@immich/sdk';
-  import { Alert, Button, Field, Input, PasswordInput, Text } from '@immich/ui';
+  import { Alert, Button, Field, Input, Text } from '@immich/ui';
   import { t } from 'svelte-i18n';
   import type { PageData } from './$types';
 
   let email = $state('');
-  let password = $state('');
-  let confirmPassword = $state('');
   let name = $state('');
   let loading = $state(false);
-  let errorMessage = $derived(
-    password === confirmPassword || confirmPassword.length === 0 ? '' : $t('password_does_not_match'),
-  );
-  const valid = $derived(password === confirmPassword && confirmPassword.length > 0);
+  let errorMessage = $state('');
+  const valid = $derived(email.length > 0 && name.length > 0);
 
   interface Props {
     data: PageData;
   }
 
   let { data }: Props = $props();
+
+  const generatePassword = () => {
+    const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,.-{}+!#$%/()=?';
+    return Array.from(crypto.getRandomValues(new Uint32Array(24)))
+      .map((n) => chars[n % chars.length])
+      .join('');
+  };
 
   const onSubmit = async (event: Event) => {
     event.preventDefault();
@@ -36,7 +39,7 @@
     errorMessage = '';
 
     try {
-      await signUpAdmin({ signUpDto: { email, password, name } });
+      await signUpAdmin({ signUpDto: { email, password: generatePassword(), name } });
       await serverConfigManager.loadServerConfig();
       await goto(Route.login());
     } catch (error) {
@@ -56,14 +59,6 @@
 
     <Field label={$t('admin_email')} required>
       <Input bind:value={email} type="email" autocomplete="email" />
-    </Field>
-
-    <Field label={$t('admin_password')} required>
-      <PasswordInput bind:value={password} autocomplete="new-password" />
-    </Field>
-
-    <Field label={$t('confirm_admin_password')} required>
-      <PasswordInput bind:value={confirmPassword} autocomplete="new-password" />
     </Field>
 
     <Field label={$t('name')} required>

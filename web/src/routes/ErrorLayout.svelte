@@ -9,10 +9,10 @@
     Icon,
     IconButton,
     Link,
-    Logo,
     Text,
     VStack,
   } from '@immich/ui';
+  import PrivoHubLogo from '$lib/components/shared-components/PrivoHubLogo.svelte';
   import { mdiAlarmLight, mdiCodeTags, mdiContentCopy, mdiMessage, mdiPartyPopper } from '@mdi/js';
   import { t } from 'svelte-i18n';
 
@@ -35,7 +35,7 @@
   <section>
     <div class="flex place-items-center border-b px-6 py-4 dark:border-b-immich-dark-gray">
       <Link href="/photos">
-        <Logo variant="inline" />
+        <PrivoHubLogo variant="inline" />
       </Link>
     </div>
   </section>

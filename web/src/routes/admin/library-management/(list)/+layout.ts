@@ -1,30 +1,5 @@
-import { getAllLibraries, getLibraryStatistics, getUserAdmin, searchUsersAdmin } from '@immich/sdk';
-import { authenticate, requestServerInfo } from '$lib/utils/auth';
-import { getFormatter } from '$lib/utils/i18n';
+import { Route } from '$lib/route';
+import { redirect } from '@sveltejs/kit';
 import type { LayoutLoad } from './$types';
 
-export const load = (async ({ url, depends }) => {
-  depends('app:libraries');
-  await authenticate(url, { admin: true });
-  await requestServerInfo();
-  const allUsers = await searchUsersAdmin({ withDeleted: false });
-  const $t = await getFormatter();
-
-  const libraries = await getAllLibraries();
-  const statisticsPromise = Promise.all(
-    libraries.map(async ({ id }) => [id, await getLibraryStatistics({ id })] as const),
-  );
-  const owners = await Promise.all(
-    libraries.map(async ({ id, ownerId }) => [id, await getUserAdmin({ id: ownerId })] as const),
-  );
-
-  return {
-    allUsers,
-    libraries,
-    statisticsPromise: statisticsPromise.then((stats) => Object.fromEntries(stats)),
-    owners: Object.fromEntries(owners),
-    meta: {
-      title: $t('external_libraries'),
-    },
-  };
-}) satisfies LayoutLoad;
+export const load = (() => redirect(301, Route.users())) satisfies LayoutLoad;
