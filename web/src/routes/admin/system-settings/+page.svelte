@@ -9,11 +9,9 @@
   import MachineLearningSettings from './MachineLearningSettings.svelte';
   import MapSettings from './MapSettings.svelte';
   import MetadataSettings from './MetadataSettings.svelte';
-  import NewVersionCheckSettings from './NewVersionCheckSettings.svelte';
   import NightlyTasksSettings from './NightlyTasksSettings.svelte';
   import NotificationSettings from './NotificationSettings.svelte';
   import ServerSettings from './ServerSettings.svelte';
-  import StorageTemplateSettings from '$lib/components/admin-settings/StorageTemplateSettings.svelte';
   import ThemeSettings from './ThemeSettings.svelte';
   import TrashSettings from './TrashSettings.svelte';
   import UserSettings from './UserSettings.svelte';
@@ -33,7 +31,6 @@
     mdiDatabaseOutline,
     mdiFileCheckOutline,
     mdiFileDocumentOutline,
-    mdiFolderOutline,
     mdiImageOutline,
     mdiLockOutline,
     mdiMapMarkerOutline,
@@ -42,7 +39,6 @@
     mdiServerOutline,
     mdiSync,
     mdiTrashCanOutline,
-    mdiUpdate,
     mdiVideoOutline,
   } from '@mdi/js';
   import type { Component } from 'svelte';
@@ -155,13 +151,6 @@
       icon: mdiServerOutline,
     },
     {
-      component: StorageTemplateSettings,
-      title: $t('admin.storage_template_settings'),
-      subtitle: $t('admin.storage_template_settings_description'),
-      key: 'storage-template',
-      icon: mdiFolderOutline,
-    },
-    {
       component: ThemeSettings,
       title: $t('admin.theme_settings'),
       subtitle: $t('admin.theme_settings_description'),
@@ -181,13 +170,6 @@
       subtitle: $t('admin.user_settings_description'),
       key: 'user-settings',
       icon: mdiAccountOutline,
-    },
-    {
-      component: NewVersionCheckSettings,
-      title: $t('admin.version_check_settings'),
-      subtitle: $t('admin.version_check_settings_description'),
-      key: 'version-check',
-      icon: mdiUpdate,
     },
     {
       component: FFmpegSettings,

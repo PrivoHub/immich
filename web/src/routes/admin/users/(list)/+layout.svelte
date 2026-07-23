@@ -47,7 +47,7 @@
     users = users.filter(({ id }) => id !== userId);
   };
 
-  const { Create } = $derived(getUserAdminsActions($t));
+  const { ManageAccess } = $derived(getUserAdminsActions($t));
 
   const getActionsForUser = (user: UserAdminResponseDto) => {
     const { Detail, Update, Delete, ResetPassword, ResetPinCode } = getUserAdminActions($t, user);
@@ -63,16 +63,15 @@
 </script>
 
 <OnEvents
-  onUserAdminCreate={onUpdate}
   onUserAdminUpdate={onUpdate}
   onUserAdminDelete={onUpdate}
   onUserAdminRestore={onUpdate}
   {onUserAdminDeleted}
 />
 
-<CommandPaletteDefaultProvider name={$t('users')} actions={[Create]} />
+<CommandPaletteDefaultProvider name={$t('users')} actions={[ManageAccess]} />
 
-<AdminPageLayout breadcrumbs={[{ title: data.meta.title }]} actions={[Create]}>
+<AdminPageLayout breadcrumbs={[{ title: data.meta.title }]} actions={[ManageAccess]}>
   <Container center size="large">
     <Table class="mt-4" striped spacing="small" size="small">
       <TableHeader>

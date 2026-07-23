@@ -1,7 +1,14 @@
 <script lang="ts">
+  import PrivoHubModal from '$lib/modals/PrivoHubModal.svelte';
   import { type ServerAboutResponseDto } from '@immich/sdk';
-  import { Icon, Modal, ModalBody } from '@immich/ui';
-  import { mdiBugOutline, mdiFaceAgent, mdiGit, mdiGithub, mdiInformationOutline } from '@mdi/js';
+  import { Icon, ModalBody } from '@immich/ui';
+  import {
+    mdiBugOutline,
+    mdiFaceAgent,
+    mdiGit,
+    mdiGithub,
+    mdiInformationOutline,
+  } from '@mdi/js';
   import { type SimpleIcon, siDiscord } from 'simple-icons';
   import { t } from 'svelte-i18n';
 
@@ -24,7 +31,7 @@
   </div>
 {/snippet}
 
-<Modal title={$t('support_and_feedback')} {onClose} size="small">
+<PrivoHubModal title={$t('support_and_feedback')} {onClose} size="small">
   <ModalBody>
     <p>{$t('official_immich_resources')}</p>
     <div class="mt-5 flex flex-col gap-2">
@@ -68,4 +75,4 @@
       </div>
     {/if}
   </ModalBody>
-</Modal>
+</PrivoHubModal>

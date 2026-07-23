@@ -1,19 +1,5 @@
-import { getConfig, getConfigDefaults } from '@immich/sdk';
-import { authenticate } from '$lib/utils/auth';
-import { getFormatter } from '$lib/utils/i18n';
+import { Route } from '$lib/route';
+import { redirect } from '@sveltejs/kit';
 import type { PageLoad } from './$types';
 
-export const load = (async ({ url }) => {
-  await authenticate(url, { admin: true });
-  const config = await getConfig();
-  const defaultConfig = await getConfigDefaults();
-  const $t = await getFormatter();
-
-  return {
-    config,
-    defaultConfig,
-    meta: {
-      title: $t('admin.system_settings'),
-    },
-  };
-}) satisfies PageLoad;
+export const load = (() => redirect(301, Route.users())) satisfies PageLoad;

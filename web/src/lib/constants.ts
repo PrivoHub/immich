@@ -74,7 +74,6 @@ export enum OpenQueryParam {
   JOB = 'job',
   STORAGE_TEMPLATE = 'storage-template',
   NOTIFICATIONS = 'notifications',
-  PURCHASE_SETTINGS = 'user-purchase-settings',
   SHARING = 'sharing',
 }
 
@@ -253,11 +252,6 @@ export interface Lang {
 }
 
 export const defaultLang: Lang = { name: 'English', code: 'en', loader: () => import('$i18n/en.json') };
-
-export enum ImmichProduct {
-  Client = 'immich-client',
-  Server = 'immich-server',
-}
 
 export enum SettingInputFieldType {
   EMAIL = 'email',
