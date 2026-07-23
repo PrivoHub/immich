@@ -22,7 +22,7 @@
         <Alert color="warning" title={$t('main_branch_warning')} class="col-span-full" size="small" />
       {/if}
 
-      <ServerAboutItem id="immich" title="Immich" version={info.version} versionHref={info.versionUrl} />
+      <ServerAboutItem id="immich" title={$t('app_name')} version={info.version} versionHref={info.versionUrl} />
       <ServerAboutItem id="exif" title="ExifTool" version={info.exiftool} />
       <ServerAboutItem id="nodejs" title="Node.js" version={info.nodejs} />
       <ServerAboutItem id="libvips" title="Libvips" version={info.libvips} />
@@ -61,14 +61,6 @@
         <ServerAboutItem id="build" title={$t('build')} version={info.build} versionHref={info.buildUrl} />
       {/if}
 
-      {#if info.buildImage && info.buildImage}
-        <ServerAboutItem
-          id="build-image"
-          title={$t('build_image')}
-          version={info.buildImage}
-          versionHref={info.buildImageUrl}
-        />
-      {/if}
 
       <div class="col-span-full">
         <Label size="small" color="primary" for="version-history">{$t('version_history')}</Label>

@@ -67,7 +67,6 @@ export type Events = {
 
   UserPinCodeReset: [];
 
-  UserAdminCreate: [UserAdminResponseDto];
   UserAdminUpdate: [UserAdminResponseDto];
   UserAdminRestore: [UserAdminResponseDto];
   // soft deleted

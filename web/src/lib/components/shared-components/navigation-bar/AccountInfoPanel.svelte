@@ -6,9 +6,10 @@
   import HelpAndFeedbackModal from '$lib/modals/HelpAndFeedbackModal.svelte';
   import { Route } from '$lib/route';
   import { userInteraction } from '$lib/stores/user.svelte';
+  import { openPortal } from '$lib/utils/privohub';
   import { getAboutInfo, type ServerAboutResponseDto } from '@immich/sdk';
   import { Button, Icon, IconButton, modalManager } from '@immich/ui';
-  import { mdiCog, mdiLogout, mdiPencil, mdiWrench } from '@mdi/js';
+  import { mdiCog, mdiLogout, mdiOpenInNew, mdiPencil, mdiWrench } from '@mdi/js';
   import { onMount } from 'svelte';
   import { t } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
@@ -75,9 +76,25 @@
           {$t('account_settings')}
         </div>
       </Button>
+      <Button
+        onclick={() => {
+          onClose?.();
+          openPortal();
+        }}
+        size="small"
+        color="secondary"
+        variant="ghost"
+        shape="round"
+        class="border hover:bg-immich-primary/10 dark:border-immich-dark-gray dark:bg-gray-500 dark:text-white dark:hover:bg-immich-dark-primary/50"
+      >
+        <div class="flex place-content-center place-items-center gap-2 px-2 text-center">
+          <Icon icon={mdiOpenInNew} size="18" aria-hidden />
+          {$t('privohub_portal')}
+        </div>
+      </Button>
       {#if authManager.user.isAdmin}
         <Button
-          href={Route.systemSettings()}
+          href={Route.users()}
           onclick={onClose}
           shape="round"
           variant="ghost"
