@@ -36,6 +36,7 @@ import { asUploadRequest, onBeforeLink } from 'src/utils/asset.util';
 import { isAssetChecksumConstraint } from 'src/utils/database';
 import { getFilenameExtension, getFileNameWithoutExtension, ImmichFileResponse } from 'src/utils/file';
 import { mimeTypes } from 'src/utils/mime-types';
+import { getQuotaBytes, getUsedBytes } from 'src/utils/privohub-quota';
 import { fromChecksum } from 'src/utils/request';
 
 export interface AssetMediaRedirectResponse {
@@ -138,7 +139,7 @@ export class AssetMediaService extends BaseService {
         ids: [auth.user.id],
       });
 
-      this.requireQuota(auth, file.size);
+      await this.requireQuota(auth, file.size);
 
       if (dto.livePhotoVideoId) {
         await onBeforeLink(
@@ -358,7 +359,21 @@ export class AssetMediaService extends BaseService {
     }
   }
 
-  private requireQuota(auth: AuthDto, size: number) {
+  private async requireQuota(auth: AuthDto, size: number) {
+    // PrivoHub: the tenant's plan, from container env, measured against the whole
+    // shared dataset (see utils/privohub-quota). Checked first because it is the
+    // workspace-wide cap and cannot be raised from inside Immich; the per-user
+    // check below still applies, so an owner can hand a member a tighter
+    // allowance underneath it.
+    //
+    // This fails the upload early with a clear message. It is not the last line
+    // of defence: the ZFS refquota refuses the write regardless, which is what
+    // covers the window where the cached usage reading is stale.
+    const quotaBytes = getQuotaBytes();
+    if (quotaBytes > 0 && (await getUsedBytes()) + size > quotaBytes) {
+      throw new BadRequestException('Quota has been exceeded!');
+    }
+
     if (auth.user.quotaSizeInBytes !== null && auth.user.quotaSizeInBytes < auth.user.quotaUsageInBytes + size) {
       throw new BadRequestException('Quota has been exceeded!');
     }

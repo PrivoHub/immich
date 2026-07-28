@@ -19,6 +19,7 @@ import { UserStatsQueryResponse } from 'src/repositories/user.repository';
 import { BaseService } from 'src/services/base.service';
 import { asHumanReadable } from 'src/utils/bytes';
 import { mimeTypes } from 'src/utils/mime-types';
+import { getQuotaBytes, getUsedBytes } from 'src/utils/privohub-quota';
 import {
   isDuplicateDetectionEnabled,
   isFacialRecognitionEnabled,
@@ -68,15 +69,37 @@ export class ServerService extends BaseService {
     const libraryBase = StorageCore.getBaseFolder(StorageFolder.Library);
     const diskInfo = await this.storageRepository.checkDiskUsage(libraryBase);
 
-    const usagePercentage = (((diskInfo.total - diskInfo.free) / diskInfo.total) * 100).toFixed(2);
+    let total = diskInfo.total;
+    let used = diskInfo.total - diskInfo.free;
+    let available = diskInfo.available;
+
+    // PrivoHub: report the plan the tenant bought, not the raw volume. The two
+    // diverge whenever usage is over plan, because ZFS will not accept a refquota
+    // below what is already written and the cap is pinned to usage instead, so
+    // the volume advertises a ceiling that grows as they upload. Used still comes
+    // from statfs, so it stays combined Photos + Drive, and it matches what Drive
+    // reports for the same tenant to the byte.
+    //
+    // This is what the sidebar renders: with no per-user quotaSizeInBytes set,
+    // StorageSpace.svelte falls through to diskSizeRaw/diskUseRaw. Leaving user
+    // quotas unset is deliberate, so an owner can still give their members
+    // tighter sub-quotas underneath this cap.
+    const quotaBytes = getQuotaBytes();
+    if (quotaBytes > 0) {
+      total = quotaBytes;
+      used = await getUsedBytes();
+      available = Math.max(0, total - used);
+    }
+
+    const usagePercentage = total > 0 ? ((used / total) * 100).toFixed(2) : '0.00';
 
     const serverInfo = new ServerStorageResponseDto();
-    serverInfo.diskAvailable = asHumanReadable(diskInfo.available);
-    serverInfo.diskSize = asHumanReadable(diskInfo.total);
-    serverInfo.diskUse = asHumanReadable(diskInfo.total - diskInfo.free);
-    serverInfo.diskAvailableRaw = diskInfo.available;
-    serverInfo.diskSizeRaw = diskInfo.total;
-    serverInfo.diskUseRaw = diskInfo.total - diskInfo.free;
+    serverInfo.diskAvailable = asHumanReadable(available);
+    serverInfo.diskSize = asHumanReadable(total);
+    serverInfo.diskUse = asHumanReadable(used);
+    serverInfo.diskAvailableRaw = available;
+    serverInfo.diskSizeRaw = total;
+    serverInfo.diskUseRaw = used;
     serverInfo.diskUsagePercentage = Number.parseFloat(usagePercentage);
     return serverInfo;
   }
