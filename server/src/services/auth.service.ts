@@ -665,10 +665,10 @@ export class AuthService extends BaseService {
     });
 
     if (storageQuota !== undefined) {
-      claims.quotaSizeInBytes = storageQuota === -1 ? null : storageQuota * HumanReadableSize.GiB;
+      claims.quotaSizeInBytes = storageQuota === -1 ? null : storageQuota * HumanReadableSize.GB;
     } else if (useDefaults) {
       claims.quotaSizeInBytes =
-        defaultStorageQuota === null || defaultStorageQuota === -1 ? null : defaultStorageQuota * HumanReadableSize.GiB;
+        defaultStorageQuota === null || defaultStorageQuota === -1 ? null : defaultStorageQuota * HumanReadableSize.GB;
     }
 
     return claims;
