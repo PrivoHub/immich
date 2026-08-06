@@ -31,15 +31,15 @@
 
   const storagePromise = $derived.by(() =>
     statsPromise.then((data) => {
-      const TiB = 1024 ** 4;
-      const [value, unit] = getBytesWithUnit(data.usage, data.usage > TiB ? 2 : 0);
+      const TB = 1000 ** 4;
+      const [value, unit] = getBytesWithUnit(data.usage, data.usage > TB ? 2 : 0);
       return { value, unit };
     }),
   );
 
   const getStorageUsageWithUnit = (usage: number) => {
-    const TiB = 1024 ** 4;
-    return getBytesWithUnit(usage, usage > TiB ? 2 : 0);
+    const TB = 1000 ** 4;
+    return getBytesWithUnit(usage, usage > TB ? 2 : 0);
   };
 
   const zeros = (value: number, maxLength = 13) => {

@@ -31,7 +31,7 @@ export class DownloadService extends BaseService {
       throw new BadRequestException('assetIds, albumId, or userId is required');
     }
 
-    const targetSize = dto.archiveSize || HumanReadableSize.GiB * 4;
+    const targetSize = dto.archiveSize || HumanReadableSize.GB * 4;
     const metadata = await this.userRepository.getMetadata(auth.user.id);
     const preferences = getPreferences(metadata);
     const motionIds = new Set<string>();
