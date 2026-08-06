@@ -40,7 +40,7 @@ const getDefaultPreferences = (): UserPreferences => {
       albumUpdate: true,
     },
     download: {
-      archiveSize: HumanReadableSize.GiB * 4,
+      archiveSize: HumanReadableSize.GB * 4,
       includeEmbeddedVideos: false,
     },
     purchase: {

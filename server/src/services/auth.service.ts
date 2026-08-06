@@ -368,7 +368,7 @@ export class AuthService extends BaseService {
           normalizedEmail,
         email: normalizedEmail,
         oauthId: profile.sub,
-        quotaSizeInBytes: storageQuota === null ? null : storageQuota * HumanReadableSize.GiB,
+        quotaSizeInBytes: storageQuota === null ? null : storageQuota * HumanReadableSize.GB,
         storageLabel: storageLabel || null,
         isAdmin: role === 'admin',
       });

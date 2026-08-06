@@ -1,37 +1,40 @@
 export const enum ByteUnit {
   'B' = 'B',
-  'KiB' = 'KiB',
-  'MiB' = 'MiB',
-  'GiB' = 'GiB',
-  'TiB' = 'TiB',
-  'PiB' = 'PiB',
-  'EiB' = 'EiB',
+  'kB' = 'kB',
+  'MB' = 'MB',
+  'GB' = 'GB',
+  'TB' = 'TB',
+  'PB' = 'PB',
+  'EB' = 'EB',
 }
 
-const byteUnits = [ByteUnit.B, ByteUnit.KiB, ByteUnit.MiB, ByteUnit.GiB, ByteUnit.TiB, ByteUnit.PiB, ByteUnit.EiB];
+const byteUnits = [ByteUnit.B, ByteUnit.kB, ByteUnit.MB, ByteUnit.GB, ByteUnit.TB, ByteUnit.PB, ByteUnit.EB];
+
+/** Bytes in one kilobyte. Units are decimal (SI): 1 kB = 1000 B, 1 GB = 1000^3 B. */
+const KILO = 1000;
 
 /**
  * Convert bytes to best human readable unit and number of that unit.
  *
- * * For `1024` bytes, returns `1` and `KiB`.
- * * For `1536` bytes, returns `1.5` and `KiB`.
+ * * For `1000` bytes, returns `1` and `kB`.
+ * * For `1500` bytes, returns `1.5` and `kB`.
  *
  * @param bytes number of bytes
  * @param maxPrecision maximum number of decimal places, default is `1`
  * @returns size (number) and unit (string)
  */
 export function getBytesWithUnit(bytes: number, maxPrecision = 1): [number, ByteUnit] {
-  const magnitude = Math.floor(Math.log(bytes === 0 ? 1 : bytes) / Math.log(1024));
+  const magnitude = Math.floor(Math.log(bytes === 0 ? 1 : bytes) / Math.log(KILO));
 
-  return [Number.parseFloat((bytes / 1024 ** magnitude).toFixed(maxPrecision)), byteUnits[magnitude]];
+  return [Number.parseFloat((bytes / KILO ** magnitude).toFixed(maxPrecision)), byteUnits[magnitude]];
 }
 
 /**
  * Localized number of bytes with a unit.
  *
- * For `1536` bytes:
- * * en: `1.5 KiB`
- * * de: `1,5 KiB`
+ * For `1500` bytes:
+ * * en: `1.5 kB`
+ * * de: `1,5 kB`
  *
  * @param bytes number of bytes
  * @param locale locale to use, default is `navigator.language`
@@ -46,25 +49,25 @@ export function getByteUnitString(bytes: number, locale?: string, maxPrecision =
 /**
  * Convert to bytes from on a specified unit.
  *
- * * `1, 'GiB'`, returns `1073741824` bytes
+ * * `1, 'GB'`, returns `1000000000` bytes
  *
  * @param size value to be converted
  * @param unit unit to convert from
  * @returns bytes (number)
  */
 export function convertToBytes(size: number, unit: ByteUnit): number {
-  return size * 1024 ** byteUnits.indexOf(unit);
+  return size * KILO ** byteUnits.indexOf(unit);
 }
 
 /**
  * Convert from bytes to a specified unit.
  *
- * * `11073741824, 'GiB'`, returns `1` GiB
+ * * `1000000000, 'GB'`, returns `1` GB
  *
  * @param bytes value to be converted
  * @param unit unit to convert to
  * @returns bytes (number)
  */
 export function convertFromBytes(bytes: number, unit: ByteUnit): number {
-  return bytes / 1024 ** byteUnits.indexOf(unit);
+  return bytes / KILO ** byteUnits.indexOf(unit);
 }

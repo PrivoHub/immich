@@ -223,7 +223,7 @@
     "oauth_storage_quota_claim": "Захтев за квоту складиштења",
     "oauth_storage_quota_claim_description": "Аутоматски подесите квоту меморијског простора корисника на вредност овог захтева.",
     "oauth_storage_quota_default": "Подразумевана квота за складиштење (ГиБ)",
-    "oauth_storage_quota_default_description": "Квота у GiB која се користи када није задата преко OAuth.",
+    "oauth_storage_quota_default_description": "Квота у GB која се користи када није задата преко OAuth.",
     "oauth_timeout": "Временско ограничење захтева",
     "oauth_timeout_description": "Временско ограничење за захтеве у милисекундама",
     "password_enable_description": "Пријава помоћу е-поште и лозинке",

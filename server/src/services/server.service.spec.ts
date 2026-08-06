@@ -31,39 +31,39 @@ describe(ServerService.name, () => {
       expect(mocks.storage.checkDiskUsage).toHaveBeenCalledWith(expect.stringContaining('/data/library'));
     });
 
-    it('should return the disk space as KiB', async () => {
+    it('should return the disk space as kB', async () => {
       mocks.storage.checkDiskUsage.mockResolvedValue({ free: 200_000, available: 300_000, total: 500_000 });
 
       await expect(sut.getStorage()).resolves.toEqual({
-        diskAvailable: '293.0 KiB',
+        diskAvailable: '300.0 kB',
         diskAvailableRaw: 300_000,
-        diskSize: '488.3 KiB',
+        diskSize: '500.0 kB',
         diskSizeRaw: 500_000,
         diskUsagePercentage: 60,
-        diskUse: '293.0 KiB',
+        diskUse: '300.0 kB',
         diskUseRaw: 300_000,
       });
 
       expect(mocks.storage.checkDiskUsage).toHaveBeenCalledWith(expect.stringContaining('/data/library'));
     });
 
-    it('should return the disk space as MiB', async () => {
+    it('should return the disk space as MB', async () => {
       mocks.storage.checkDiskUsage.mockResolvedValue({ free: 200_000_000, available: 300_000_000, total: 500_000_000 });
 
       await expect(sut.getStorage()).resolves.toEqual({
-        diskAvailable: '286.1 MiB',
+        diskAvailable: '300.0 MB',
         diskAvailableRaw: 300_000_000,
-        diskSize: '476.8 MiB',
+        diskSize: '500.0 MB',
         diskSizeRaw: 500_000_000,
         diskUsagePercentage: 60,
-        diskUse: '286.1 MiB',
+        diskUse: '300.0 MB',
         diskUseRaw: 300_000_000,
       });
 
       expect(mocks.storage.checkDiskUsage).toHaveBeenCalledWith(expect.stringContaining('/data/library'));
     });
 
-    it('should return the disk space as GiB', async () => {
+    it('should return the disk space as GB', async () => {
       mocks.storage.checkDiskUsage.mockResolvedValue({
         free: 200_000_000_000,
         available: 300_000_000_000,
@@ -71,19 +71,19 @@ describe(ServerService.name, () => {
       });
 
       await expect(sut.getStorage()).resolves.toEqual({
-        diskAvailable: '279.4 GiB',
+        diskAvailable: '300.0 GB',
         diskAvailableRaw: 300_000_000_000,
-        diskSize: '465.7 GiB',
+        diskSize: '500.0 GB',
         diskSizeRaw: 500_000_000_000,
         diskUsagePercentage: 60,
-        diskUse: '279.4 GiB',
+        diskUse: '300.0 GB',
         diskUseRaw: 300_000_000_000,
       });
 
       expect(mocks.storage.checkDiskUsage).toHaveBeenCalledWith(expect.stringContaining('/data/library'));
     });
 
-    it('should return the disk space as TiB', async () => {
+    it('should return the disk space as TB', async () => {
       mocks.storage.checkDiskUsage.mockResolvedValue({
         free: 200_000_000_000_000,
         available: 300_000_000_000_000,
@@ -91,12 +91,12 @@ describe(ServerService.name, () => {
       });
 
       await expect(sut.getStorage()).resolves.toEqual({
-        diskAvailable: '272.8 TiB',
+        diskAvailable: '300.0 TB',
         diskAvailableRaw: 300_000_000_000_000,
-        diskSize: '454.7 TiB',
+        diskSize: '500.0 TB',
         diskSizeRaw: 500_000_000_000_000,
         diskUsagePercentage: 60,
-        diskUse: '272.8 TiB',
+        diskUse: '300.0 TB',
         diskUseRaw: 300_000_000_000_000,
       });
 

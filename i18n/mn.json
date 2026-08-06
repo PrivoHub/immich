@@ -148,7 +148,7 @@
   "archive": "Архив",
   "archive_or_unarchive_photo": "Зургийг архивт оруулах эсвэл гаргах",
   "archive_size": "Архивын хэмжээ",
-  "archive_size_description": "Татах үеийн архивын хэмжээг тохируулах (GiB-аар)",
+  "archive_size_description": "Татах үеийн архивын хэмжээг тохируулах (GB-аар)",
   "asset_added_to_album": "Цомогт нэмсэн",
   "asset_adding_to_album": "Цомогт нэмж байна…",
   "buy": "Immich худалдаж авах",

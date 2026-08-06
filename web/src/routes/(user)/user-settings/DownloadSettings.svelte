@@ -10,7 +10,7 @@
   import { t } from 'svelte-i18n';
   import { fade } from 'svelte/transition';
 
-  let archiveSize = $state(convertFromBytes(authManager.preferences.download.archiveSize || 4, ByteUnit.GiB));
+  let archiveSize = $state(convertFromBytes(authManager.preferences.download.archiveSize || 4, ByteUnit.GB));
   let includeEmbeddedVideos = $state(authManager.preferences.download.includeEmbeddedVideos || false);
 
   const handleSave = async () => {
@@ -18,7 +18,7 @@
       const response = await updateMyPreferences({
         userPreferencesUpdateDto: {
           download: {
-            archiveSize: Math.floor(convertToBytes(archiveSize, ByteUnit.GiB)),
+            archiveSize: Math.floor(convertToBytes(archiveSize, ByteUnit.GB)),
             includeEmbeddedVideos,
           },
         },
