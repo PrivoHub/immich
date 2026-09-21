@@ -29,7 +29,7 @@
       <circle cx="62" cy="37" r="5.5" fill="#fff"/>
       <path d="M27 66 L43 45 L53 58 L62 47 L75 66 Z" fill="#fff"/>
     </svg>
-    <span class="font-semibold text-[#6D5DD1] dark:text-white leading-none" style="font-size:{textSize}px">PrivoHub Photos</span>
+    <span class="leading-none font-semibold text-[#6D5DD1] dark:text-white" style="font-size:{textSize}px">PrivoHub Photos</span>
   </span>
 {:else}
   <svg
