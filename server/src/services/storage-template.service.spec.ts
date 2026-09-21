@@ -99,6 +99,7 @@ describe(StorageTemplateService.name, () => {
     // row, or an admin PUT) is ignored and the migration still runs.
     it('should run even when a stored config tries to disable the template', async () => {
       mocks.systemMetadata.get.mockResolvedValue({ storageTemplate: { enabled: false } });
+      mocks.assetJob.getForStorageTemplateJob.mockResolvedValue(getForStorageTemplate(testAsset));
 
       await expect(sut.handleMigrationSingle({ id: testAsset.id })).resolves.not.toBe(JobStatus.Skipped);
 

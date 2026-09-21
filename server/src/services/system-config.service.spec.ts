@@ -208,7 +208,8 @@ const updatedConfig = Object.freeze<SystemConfig>({
     extractEmbedded: false,
   },
   newVersionCheck: {
-    enabled: true,
+    // PrivoHub: the upstream version check is removed, so the default is off.
+    enabled: false,
     channel: ReleaseChannel.Stable,
   },
   trash: {

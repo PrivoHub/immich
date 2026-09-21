@@ -27,14 +27,19 @@ describe(EmailRepository.name, () => {
     it('should render the email correctly for WELCOME template', async () => {
       const request: EmailRenderRequest = {
         template: EmailTemplate.WELCOME,
-        data: { displayName: 'Alen Turing', username: 'turing', baseUrl: 'http://localhost' },
+        data: {
+          displayName: 'Alen Turing',
+          username: 'turing',
+          baseUrl: 'http://localhost',
+          registrationUrl: 'http://localhost/register',
+        },
         customTemplate: '',
       };
 
       const result = await sut.renderEmail(request);
 
       expect(result.html).toContain('<!DOCTYPE html PUBLIC');
-      expect(result.text).toContain('A new account has been created for you');
+      expect(result.text).toContain('You have been invited to PrivoHub Photos');
     });
 
     it('should render the email correctly for ALBUM_INVITE template', async () => {

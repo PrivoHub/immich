@@ -80,7 +80,6 @@
       oauthError = $t('errors.unable_to_login_with_oauth');
     }
   };
-
 </script>
 
 <AuthPageLayout title={data.meta.title}>

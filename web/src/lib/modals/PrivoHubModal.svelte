@@ -15,14 +15,7 @@
     children: Snippet;
   }
 
-  let {
-    title,
-    size = 'small',
-    closeOnBackdropClick = true,
-    closeOnEsc = true,
-    onClose,
-    children,
-  }: Props = $props();
+  let { title, size = 'small', closeOnBackdropClick = true, closeOnEsc = true, onClose, children }: Props = $props();
 </script>
 
 <!--
@@ -34,7 +27,7 @@
   <ModalHeader>
     <div class="flex items-center justify-between gap-2">
       <PrivoHubLogo variant="icon" size="tiny" />
-      <p class="text-dark/90 grow text-lg font-semibold">{title}</p>
+      <p class="grow text-lg font-semibold text-dark/90">{title}</p>
       <CloseButton class="-me-2" onclick={onClose} />
     </div>
   </ModalHeader>
