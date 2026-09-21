@@ -3,6 +3,8 @@ import { vitest } from 'vitest';
 
 vitest.mock('src/constants', () => ({
   IWorker: 'IWorker',
+  // Pulled in through the config defaults, which this stub would otherwise blank out.
+  PRIVOHUB_STORAGE_TEMPLATE: '{{y}}/{{y}}-{{MM}}-{{dd}}/{{filename}}',
 }));
 
 describe('StorageCore', () => {

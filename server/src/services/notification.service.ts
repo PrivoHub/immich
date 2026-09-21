@@ -300,11 +300,20 @@ export class NotificationService extends BaseService {
     const { server, oauth, templates } = await this.getConfig({ withCache: true });
     const baseUrl = getExternalDomain(server);
 
-    // Build Keycloak registration URL from the configured OAuth issuer and client
-    const registrationUrl = new URL(`${oauth.issuerUrl}/protocol/openid-connect/registrations`);
-    registrationUrl.searchParams.set('client_id', oauth.clientId);
-    registrationUrl.searchParams.set('response_type', 'code');
-    registrationUrl.searchParams.set('redirect_uri', baseUrl);
+    // Build the Keycloak registration URL from the configured OAuth issuer and client.
+    // An unset or unparseable issuer falls back to the instance itself: the welcome mail
+    // is the only thing telling a new member their account exists, so it has to go out
+    // even when this deployment has not been pointed at an IdP yet.
+    let registrationUrl = baseUrl;
+    try {
+      const url = new URL(`${oauth.issuerUrl}/protocol/openid-connect/registrations`);
+      url.searchParams.set('client_id', oauth.clientId);
+      url.searchParams.set('response_type', 'code');
+      url.searchParams.set('redirect_uri', baseUrl);
+      registrationUrl = url.href;
+    } catch {
+      this.logger.warn('Welcome email: no usable OAuth issuer, linking to the instance instead');
+    }
 
     const { html, text } = await this.emailRepository.renderEmail({
       template: EmailTemplate.WELCOME,
@@ -312,7 +321,7 @@ export class NotificationService extends BaseService {
         baseUrl,
         displayName: user.name,
         username: user.email,
-        registrationUrl: registrationUrl.toString(),
+        registrationUrl,
       },
       customTemplate: templates.email.welcomeTemplate,
     });

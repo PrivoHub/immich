@@ -57,11 +57,13 @@
   // the "running low" prompt still gets told, rather than silently hitting
   // failing uploads.
   $effect(() => {
-    if ((isFull || isNearlyFull) && !sessionPrompted && sessionStorage.getItem(SESSION_PROMPT_KEY) !== stage) {
-      sessionPrompted = true;
-      sessionStorage.setItem(SESSION_PROMPT_KEY, stage);
-      void openStorageModal();
+    if (!(isFull || isNearlyFull) || sessionPrompted || sessionStorage.getItem(SESSION_PROMPT_KEY) === stage) {
+      return;
     }
+
+    sessionPrompted = true;
+    sessionStorage.setItem(SESSION_PROMPT_KEY, stage);
+    void openStorageModal();
   });
 
   onMount(async () => {

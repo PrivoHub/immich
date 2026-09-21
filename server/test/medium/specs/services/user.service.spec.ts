@@ -232,7 +232,7 @@ describe(UserService.name, () => {
       const dto = { download: { archiveSize: 1_234_567 } };
 
       await expect(sut.getMyPreferences(auth)).resolves.toMatchObject({
-        download: { archiveSize: 4 * HumanReadableSize.GiB },
+        download: { archiveSize: 4 * HumanReadableSize.GB },
       });
       await expect(sut.updateMyPreferences(auth, dto)).resolves.toMatchObject(dto);
       await expect(sut.getMyPreferences(auth)).resolves.toMatchObject(dto);

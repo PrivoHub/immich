@@ -23,9 +23,7 @@
 
   const generatePassword = () => {
     const chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,.-{}+!#$%/()=?';
-    return Array.from(crypto.getRandomValues(new Uint32Array(24)))
-      .map((n) => chars[n % chars.length])
-      .join('');
+    return Array.from(crypto.getRandomValues(new Uint32Array(24)), (n) => chars[n % chars.length]).join('');
   };
 
   const onSubmit = async (event: Event) => {
