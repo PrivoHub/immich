@@ -16,6 +16,7 @@
   import { sidebarStore } from '$lib/stores/sidebar.svelte';
   import { closeWebsocketConnection, openWebsocketConnection, websocketStore } from '$lib/stores/websocket';
   import { maintenanceShouldRedirect } from '$lib/utils/maintenance';
+  import { applyPrivoHubLogos } from '$lib/utils/privohub-logos';
   import { getServerConfig } from '@immich/sdk';
   import {
     CommandPaletteProvider,
@@ -40,6 +41,10 @@
   import { t } from 'svelte-i18n';
   import { get } from 'svelte/store';
   import '../app.css';
+
+  // At module scope, so the library's own <Logo> (the one a Modal header draws
+  // for itself) never paints the stock mark on the way to first render.
+  applyPrivoHubLogos();
 
   interface Props {
     children?: Snippet;
