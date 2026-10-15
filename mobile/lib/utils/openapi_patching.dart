@@ -29,8 +29,8 @@ final Map<String, Map<String, Object?>> openApiPatches = {
     'recentlyAdded': RecentlyAddedResponse(sidebarWeb: false).toJson(),
   },
   'ServerConfigDto': {
-    'mapLightStyleUrl': 'https://tiles.immich.cloud/v1/style/light.json',
-    'mapDarkStyleUrl': 'https://tiles.immich.cloud/v1/style/dark.json',
+    'mapLightStyleUrl': 'https://tiles.privohub.com/styles/light.json',
+    'mapDarkStyleUrl': 'https://tiles.privohub.com/styles/dark.json',
     'minFaces': 3,
   },
   'UserResponseDto': {'profileChangedAt': _now},
