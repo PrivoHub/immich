@@ -29,17 +29,20 @@ class _PrivoHubWorkspaceInputState extends State<PrivoHubWorkspaceInput> {
   @override
   void initState() {
     super.initState();
-    _focusNode.addListener(_onFocusChange);
+    _focusNode.addListener(_rebuild);
+    widget.controller.addListener(_rebuild);
   }
 
   @override
   void dispose() {
-    _focusNode.removeListener(_onFocusChange);
+    widget.controller.removeListener(_rebuild);
+    _focusNode.removeListener(_rebuild);
     _focusNode.dispose();
     super.dispose();
   }
 
-  void _onFocusChange() => setState(() {});
+  // Focus drives the border; the text decides whether the hint shows.
+  void _rebuild() => setState(() {});
 
   @override
   Widget build(BuildContext context) {
@@ -67,9 +70,13 @@ class _PrivoHubWorkspaceInputState extends State<PrivoHubWorkspaceInput> {
                     controller: widget.controller,
                     focusNode: _focusNode,
                     style: style,
-                    decoration: InputDecoration.collapsed(hintText: widget.hintText),
+                    // A field is never narrower than its hint, so drop the hint once there is a
+                    // name; otherwise the suffix stays a hint's width away from a short name.
+                    decoration: InputDecoration.collapsed(
+                      hintText: widget.controller.text.isEmpty ? widget.hintText : null,
+                    ),
                     keyboardType: TextInputType.url,
-                    textInputAction: TextInputAction.next,
+                    textInputAction: TextInputAction.go,
                     autocorrect: false,
                     enableSuggestions: false,
                     inputFormatters: [PrivoHubWorkspace.inputFormatter],
