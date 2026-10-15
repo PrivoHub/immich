@@ -1806,7 +1806,6 @@
   "saved_settings": "تم حفظ الإعدادات",
   "say_something": "قل شيئًا",
   "scaffold_body_error_occurred": "حدث خطأ",
-  "scaffold_body_error_unrecoverable": "حدث خطأ لا يمكن إصلاحه. يرجى مشاركة تفاصيل الخطأ وتسلسل الأخطاء على Discord أو GitHub حتى نتمكن من مساعدتك. إذا طُلب منك ذلك، يمكنك مسح بيانات التطبيق أدناه.",
   "scan": "بحث",
   "scan_all_libraries": "فحص كل المكتبات",
   "scan_library": "مسح",

@@ -1849,7 +1849,6 @@
   "saved_settings": "บันทึกการตั้งค่าสำเร็จ",
   "say_something": "พูดอะไรสักอย่าง",
   "scaffold_body_error_occurred": "เกิดข้อผิดพลาด",
-  "scaffold_body_error_unrecoverable": "เกิดข้อผิดพลาดที่ไม่สามารถกู้คืนได้ โปรดแชร์ข้อผิดพลาดและ Stack trace ไปยัง Discord หรือ GitHub เพื่อให้เราช่วยเหลือ หากได้รับคำแนะนำ คุณสามารถล้างข้อมูลแอปได้ด้านล่าง",
   "scan": "สแกน",
   "scan_all_libraries": "สแกนคลังภาพทั้งหมด",
   "scan_library": "สแกน",

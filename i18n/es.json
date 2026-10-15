@@ -1871,7 +1871,6 @@
   "saved_settings": "Configuraciones guardadas",
   "say_something": "Comenta algo",
   "scaffold_body_error_occurred": "Ha ocurrido un error",
-  "scaffold_body_error_unrecoverable": "Se ha producido un error irrecuperable. Comparte el error y el seguimiento de la pila en Discord o GitHub para que podamos ayudarte. Si se indica, puedes borrar los datos de la aplicación a continuación.",
   "scan": "Escanear",
   "scan_all_libraries": "Escanear todas las bibliotecas",
   "scan_library": "Escanear",

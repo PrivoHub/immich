@@ -1870,7 +1870,6 @@
   "saved_settings": "Instellingen opgeslagen",
   "say_something": "Zeg iets",
   "scaffold_body_error_occurred": "Fout opgetreden",
-  "scaffold_body_error_unrecoverable": "Er is een onherstelbare fout opgetreden. Deel de foutmelding en de stacktrace op Discord of GitHub zodat we kunnen helpen. Als dit wordt geadviseerd, kun je hieronder de app data wissen.",
   "scan": "Scan",
   "scan_all_libraries": "Scan alle bibliotheken",
   "scan_library": "Scan",

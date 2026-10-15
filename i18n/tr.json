@@ -1871,7 +1871,6 @@
   "saved_settings": "Kaydedilen ayarlar",
   "say_something": "Bir şey söyle",
   "scaffold_body_error_occurred": "Bir hata meydana geldi",
-  "scaffold_body_error_unrecoverable": "Geri döndürülemez bir hata oluştu. Size yardımcı olabilmemiz için hatayı ve hata izleme kaydını Discord veya GitHub üzerinden paylaşın. İsterseniz, aşağıdaki bağlantıdan uygulama verilerini temizleyebilirsiniz.",
   "scan": "Tara",
   "scan_all_libraries": "Tüm Kütüphaneleri Tara",
   "scan_library": "Kütüphaneyi tara",

@@ -1864,7 +1864,6 @@
   "saved_settings": "Gemte indstillinger",
   "say_something": "Skriv noget",
   "scaffold_body_error_occurred": "Der opstod en fejl",
-  "scaffold_body_error_unrecoverable": "Der er opstået en uoprettelig fejl. Del venligst fejlen og stack trace på Discord eller GitHub, så vi kan hjælpe. Hvis du bliver bedt om det, kan du rydde appdataene nedenfor.",
   "scan": "Skan",
   "scan_all_libraries": "Skan alle biblioteker",
   "scan_library": "Skan",

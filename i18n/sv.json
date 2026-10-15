@@ -1870,7 +1870,6 @@
   "saved_settings": "Sparade inställningar",
   "say_something": "Säg något",
   "scaffold_body_error_occurred": "Fel uppstod",
-  "scaffold_body_error_unrecoverable": "Ett oåterkalleligt fel har uppstått. Dela felmeddelandet och stackspårningen på Discord eller GitHub så att vi kan hjälpa till. Om du har fått rådet att rensa appens data kan du göra det nedan.",
   "scan": "Skanna",
   "scan_all_libraries": "Skanna alla bibliotek",
   "scan_library": "Skanna",

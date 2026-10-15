@@ -1870,7 +1870,6 @@
   "saved_settings": "Impostazioni salvate",
   "say_something": "Dici qualcosa",
   "scaffold_body_error_occurred": "Si è verificato un errore",
-  "scaffold_body_error_unrecoverable": "Si è verificato un errore irreversibile. Condividi l'errore e lo stack trace su Discord o GitHub per consentirci di aiutarti. Se necessario, puoi cancellare i dati dell'app qui sotto.",
   "scan": "Scansione",
   "scan_all_libraries": "Analizza tutte le librerie",
   "scan_library": "Scansione",

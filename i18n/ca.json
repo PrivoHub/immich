@@ -1871,7 +1871,6 @@
   "saved_settings": "S’ha desat la configuració",
   "say_something": "Digueu alguna cosa",
   "scaffold_body_error_occurred": "S’ha produït un error",
-  "scaffold_body_error_unrecoverable": "S’ha produït un error irrecuperable. Compartiu l’error i la traça de la pila al Discord o al GitHub perquè us puguem ajudar. Si us ho aconsellen, podeu esborrar les dades de l’aplicació a continuació.",
   "scan": "Escaneja",
   "scan_all_libraries": "Escaneja totes les biblioteques",
   "scan_library": "Escaneja",

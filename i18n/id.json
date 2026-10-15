@@ -1869,7 +1869,6 @@
   "saved_settings": "Pengaturan disimpan",
   "say_something": "Ucapkan sesuatu",
   "scaffold_body_error_occurred": "Terjadi kesalahan",
-  "scaffold_body_error_unrecoverable": "Terjadi kesalahan yang tidak dapat dipulihkan. Silakan bagikan kesalahan dan stack trace di Discord atau GitHub agar kami dapat membantu. Jika disarankan, Anda dapat menghapus data aplikasi di bawah ini.",
   "scan": "Pindai",
   "scan_all_libraries": "Pindai Semua Pustaka",
   "scan_library": "Pindai",

@@ -1849,7 +1849,6 @@
   "saved_settings": "Configurações salvas",
   "say_something": "Diga algo",
   "scaffold_body_error_occurred": "Ocorreu um erro",
-  "scaffold_body_error_unrecoverable": "Ocorreu um erro irrecuperável. Por favor compartilhe o erro e o \"stack trace\" no Discord ou no GitHub para o podermos ajudar. Se recomendado pela comunidade, pode limpar os dados da aplicação abaixo.",
   "scan": "Escanear",
   "scan_all_libraries": "Escanear Todas Bibliotecas",
   "scan_library": "Escanear",

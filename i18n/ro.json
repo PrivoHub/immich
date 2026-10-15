@@ -1862,7 +1862,6 @@
   "saved_settings": "Setări salvate",
   "say_something": "Spuneți ceva",
   "scaffold_body_error_occurred": "A apărut o eroare",
-  "scaffold_body_error_unrecoverable": "O eroare nerecuperabilă a avut loc. Te rugăm să trimiți eroarea și stack trace-ul pe Discord sau GitHub pentru ați putea oferi ajutor. Dacă îți este recomandat, poți șterge datele aplicației mai jos.",
   "scan": "Scanare",
   "scan_all_libraries": "Scanați toate bibliotecile",
   "scan_library": "Scanare",
