@@ -25,6 +25,7 @@ import 'package:immich_mobile/providers/view_intent/view_intent_handler.provider
 import 'package:immich_mobile/providers/websocket.provider.dart';
 import 'package:immich_mobile/repositories/permission.repository.dart';
 import 'package:immich_mobile/routing/router.dart';
+import 'package:immich_mobile/utils/privohub_workspace.dart';
 import 'package:immich_mobile/utils/provider_utils.dart';
 import 'package:immich_mobile/utils/semver.dart';
 import 'package:immich_mobile/utils/url_helper.dart';
@@ -32,6 +33,7 @@ import 'package:immich_mobile/utils/version_compatibility.dart';
 import 'package:immich_mobile/widgets/common/immich_logo.dart';
 import 'package:immich_mobile/widgets/common/immich_title_text.dart';
 import 'package:immich_mobile/widgets/common/immich_toast.dart';
+import 'package:immich_mobile/widgets/forms/login/workspace_input.dart';
 import 'package:immich_ui/immich_ui.dart';
 import 'package:logging/logging.dart';
 import 'package:openapi/api.dart';
@@ -42,8 +44,8 @@ class LoginForm extends HookConsumerWidget {
 
   final log = Logger('LoginForm');
 
-  String? _validateUrl(String? url) =>
-      normalizeAndValidateServerUrl(url) ? null : StaticTranslations.instance.login_form_err_invalid_url;
+  String? _validateWorkspace(String workspace) =>
+      PrivoHubWorkspace.toServerUrl(workspace) == null ? StaticTranslations.instance.login_form_workspace_empty : null;
 
   String? _validateEmail(String? email) {
     if (email == null || email == '') {
@@ -66,6 +68,8 @@ class LoginForm extends HookConsumerWidget {
     final emailController = useTextEditingController.fromValue(TextEditingValue.empty);
     final passwordController = useTextEditingController.fromValue(TextEditingValue.empty);
     final serverEndpointController = useTextEditingController.fromValue(TextEditingValue.empty);
+    // The field holds only the workspace name; this is the server address it stands for.
+    String serverUrlFromInput() => PrivoHubWorkspace.toServerUrl(serverEndpointController.text) ?? '';
     final passwordFocusNode = useFocusNode();
     final isOauthEnable = useState<bool>(false);
     final isPasswordLoginEnable = useState<bool>(false);
@@ -91,7 +95,7 @@ class LoginForm extends HookConsumerWidget {
     /// Fetch the server login credential and enables oAuth login if necessary
     /// Returns true if successful, false otherwise
     Future<void> getServerAuthSettings() async {
-      final sanitizeServerUrl = normalizeServerUrl(serverEndpointController.text);
+      final sanitizeServerUrl = serverUrlFromInput();
       final serverUrl = punycodeEncodeUrl(sanitizeServerUrl);
 
       // Guard empty URL
@@ -165,7 +169,7 @@ class LoginForm extends HookConsumerWidget {
     useEffect(() {
       final serverUrl = getServerUrl();
       if (serverUrl != null) {
-        serverEndpointController.text = serverUrl;
+        serverEndpointController.text = PrivoHubWorkspace.fromServerUrl(serverUrl);
       }
       return null;
     }, []);
@@ -320,11 +324,7 @@ class LoginForm extends HookConsumerWidget {
       final codeChallenge = await generatePKCECodeChallenge(codeVerifier);
 
       try {
-        oAuthServerUrl = await oAuthService.getOAuthServerUrl(
-          normalizeServerUrl(serverEndpointController.text),
-          state,
-          codeChallenge,
-        );
+        oAuthServerUrl = await oAuthService.getOAuthServerUrl(serverUrlFromInput(), state, codeChallenge);
 
         // Invalidate all api repository provider instance to take into account new access token
         invalidateAllApiRepositoryProviders(ref);
@@ -442,12 +442,11 @@ class LoginForm extends HookConsumerWidget {
                   onSubmit: getServerAuthSettings,
                   submitText: context.t.next,
                   submitIcon: Icons.arrow_forward_rounded,
-                  builder: (_, form) => ImmichURLInput(
+                  builder: (_, form) => PrivoHubWorkspaceInput(
                     controller: serverEndpointController,
-                    label: context.t.login_form_endpoint_url,
-                    hintText: context.t.login_form_endpoint_hint,
-                    validator: _validateUrl,
-                    keyboardAction: .next,
+                    label: context.t.login_form_workspace,
+                    hintText: context.t.login_form_workspace_hint,
+                    validator: _validateWorkspace,
                     onSubmit: (_) => form.submit(),
                   ),
                 ),
@@ -468,11 +467,7 @@ class LoginForm extends HookConsumerWidget {
                 buildVersionCompatWarning(),
                 Padding(
                   padding: const EdgeInsets.only(bottom: ImmichSpacing.md),
-                  child: Text(
-                    normalizeServerUrl(serverEndpointController.text),
-                    style: context.textTheme.displaySmall,
-                    textAlign: TextAlign.center,
-                  ),
+                  child: Text(serverUrlFromInput(), style: context.textTheme.displaySmall, textAlign: TextAlign.center),
                 ),
                 if (isPasswordLoginEnable.value)
                   ImmichForm(
