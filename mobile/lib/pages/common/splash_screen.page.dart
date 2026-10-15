@@ -5,6 +5,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:immich_mobile/constants/constants.dart';
 import 'package:immich_mobile/constants/locales.dart';
 import 'package:immich_mobile/data/db/main/database.dart';
 import 'package:immich_mobile/domain/models/config/app_config.dart';
@@ -159,17 +160,14 @@ class _BottomPanelState extends State<_BottomPanel> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             _ActionLink(
-              icon: Icons.chat_bubble_outline,
-              label: context.t.discord,
-              onTap: () => launchUrl(Uri.parse('https://discord.immich.app/'), mode: LaunchMode.externalApplication),
+              icon: Icons.help_outline,
+              label: context.t.get_help,
+              onTap: () => launchUrl(Uri.parse(kHelpLink), mode: LaunchMode.externalApplication),
             ),
             _ActionLink(
-              icon: Icons.bug_report_outlined,
-              label: context.t.profile_drawer_github,
-              onTap: () => launchUrl(
-                Uri.parse('https://github.com/immich-app/immich/issues'),
-                mode: LaunchMode.externalApplication,
-              ),
+              icon: Icons.mail_outline,
+              label: context.t.support,
+              onTap: () => launchUrl(Uri.parse(kSupportEmailLink), mode: LaunchMode.externalApplication),
             ),
             if (!_cleared)
               _ActionLink(

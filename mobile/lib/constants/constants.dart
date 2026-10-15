@@ -42,9 +42,12 @@ const List<(String, String)> kWidgetNames = [
 
 const int kMinMonthsToEnableScrubberSnap = 12;
 
-const String kImmichAppStoreLink = "https://apps.apple.com/app/immich/id1613945652";
-const String kImmichPlayStoreLink = "https://play.google.com/store/apps/details?id=app.alextran.immich";
-const String kImmichLatestRelease = "https://github.com/immich-app/immich/releases/latest";
+// PrivoHub Photos links. The server is managed, so there is no server update link; an
+// out-of-date app is sent to the help page until the store listings exist.
+const String kHelpLink = "https://privohub.com/help/photos";
+const String kSupportEmailLink = "mailto:support@privohub.com";
+const String kSourceCodeLink = "https://github.com/PrivoHub/immich";
+const String kAppUpdateLink = kHelpLink;
 
 const int kPhotoTabIndex = 0;
 const int kSearchTabIndex = 1;

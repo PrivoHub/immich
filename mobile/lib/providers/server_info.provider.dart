@@ -107,7 +107,8 @@ final versionWarningPresentProvider = Provider.family<bool, UserDto?>((ref, user
   final serverInfo = ref.watch(serverInfoProvider);
   return switch (serverInfo.versionStatus) {
     VersionStatus.clientOutOfDate || VersionStatus.error => true,
-    VersionStatus.serverOutOfDate => serverInfo.latestVersion != null && (user?.isAdmin ?? false),
+    // The server is managed by PrivoHub; nobody using the app can update it.
+    VersionStatus.serverOutOfDate => false,
     VersionStatus.upToDate => false,
   };
 });

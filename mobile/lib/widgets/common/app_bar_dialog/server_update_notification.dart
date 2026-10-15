@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -21,23 +20,7 @@ class ServerUpdateNotification extends HookConsumerWidget {
     final Color infoColor = context.isDarkTheme
         ? context.primaryColor.withAlpha(55)
         : context.primaryColor.withAlpha(25);
-    Future<void> openUpdateLink() {
-      String url;
-      if (serverInfoState.versionStatus == VersionStatus.serverOutOfDate) {
-        url = kImmichLatestRelease;
-      } else {
-        if (Platform.isIOS) {
-          url = kImmichAppStoreLink;
-        } else if (Platform.isAndroid) {
-          url = kImmichPlayStoreLink;
-        } else {
-          // Fallback to latest release for other/unknown platforms
-          url = kImmichLatestRelease;
-        }
-      }
-
-      return launchUrlString(url, mode: LaunchMode.externalApplication);
-    }
+    Future<void> openUpdateLink() => launchUrlString(kAppUpdateLink, mode: LaunchMode.externalApplication);
 
     return SizedBox(
       width: double.infinity,
@@ -65,8 +48,7 @@ class ServerUpdateNotification extends HookConsumerWidget {
                 style: context.textTheme.labelLarge,
               ),
             ),
-            if (serverInfoState.versionStatus == VersionStatus.serverOutOfDate ||
-                serverInfoState.versionStatus == VersionStatus.clientOutOfDate) ...[
+            if (serverInfoState.versionStatus == VersionStatus.clientOutOfDate) ...[
               const SizedBox(width: 8),
               TextButton(
                 onPressed: () => unawaited(openUpdateLink()),
@@ -75,9 +57,7 @@ class ServerUpdateNotification extends HookConsumerWidget {
                   minimumSize: Size.zero,
                   tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 ),
-                child: serverInfoState.versionStatus == VersionStatus.clientOutOfDate
-                    ? Text(context.t.action_common_update)
-                    : Text(context.t.view),
+                child: Text(context.t.action_common_update),
               ),
             ],
           ],
