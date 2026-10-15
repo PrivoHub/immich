@@ -11,10 +11,6 @@ class ImmichLoadingIndicator extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final logoAnimationController = useAnimationController(duration: const Duration(seconds: 6));
-    unawaited(logoAnimationController.reverse());
-    unawaited(logoAnimationController.repeat());
-
     final borderAnimationController = useAnimationController(duration: const Duration(seconds: 6));
     unawaited(borderAnimationController.repeat());
 
@@ -34,9 +30,10 @@ class ImmichLoadingIndicator extends HookWidget {
             child: child,
           );
         },
-        child: Padding(
-          padding: const EdgeInsets.all(15),
-          child: RotationTransition(turns: logoAnimationController, child: const ImmichLogo()),
+        child: const Padding(
+          padding: EdgeInsets.all(15),
+          // The shield stays upright; the ring shows the activity.
+          child: ImmichLogo(),
         ),
       ),
     );
@@ -47,13 +44,8 @@ class GradientBorderPainter extends CustomPainter {
   final double animation;
   final double strokeWidth;
   final double opacity = 0.7;
-  final colors = [
-    const Color(0xFFFA2921),
-    const Color(0xFFED79B5),
-    const Color(0xFFFFB400),
-    const Color(0xFF1E83F7),
-    const Color(0xFF18C249),
-  ];
+  // Photos violets, light to deep.
+  final colors = [const Color(0xFF8473E6), const Color(0xFF6D5DD1), const Color(0xFF5848B8)];
 
   GradientBorderPainter({required this.animation, required this.strokeWidth});
 
