@@ -48,6 +48,9 @@ const String kHelpLink = "https://privohub.com/help/photos";
 const String kSupportEmailLink = "mailto:support@privohub.com";
 const String kSourceCodeLink = "https://github.com/PrivoHub/immich";
 const String kAppUpdateLink = kHelpLink;
+// Storage, subscription, members and the account are managed in the PrivoHub portal.
+const String kPortalLink = "https://privohub.com/portal";
+const String kPortalStorageLink = "$kPortalLink/storage";
 
 const int kPhotoTabIndex = 0;
 const int kSearchTabIndex = 1;

@@ -85,6 +85,20 @@ class ImmichAppBarDialog extends HookConsumerWidget {
       );
     }
 
+    // Storage and the subscription live in the PrivoHub portal; open it in the browser.
+    void openPortal(String url) {
+      ContextHelper(context).pop();
+      unawaited(launchUrl(Uri.parse(url), mode: LaunchMode.externalApplication));
+    }
+
+    ListTile buildManageStorageButton() {
+      return buildActionButton(Icons.storage_outlined, context.t.manage_storage, () => openPortal(kPortalStorageLink));
+    }
+
+    ListTile buildPortalButton() {
+      return buildActionButton(Icons.open_in_new_rounded, context.t.privohub_portal, () => openPortal(kPortalLink));
+    }
+
     ListTile buildSettingButton() {
       return buildActionButton(
         Icons.settings_outlined,
@@ -162,23 +176,26 @@ class ImmichAppBarDialog extends HookConsumerWidget {
         percentage = user.quotaUsageInBytes / user.quotaSizeInBytes;
       }
 
-      return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: 12,
-          children: [
-            Text(context.t.backup_controller_page_server_storage, style: context.textTheme.labelLarge),
-            LinearProgressIndicator(
-              minHeight: 10.0,
-              value: percentage,
-              borderRadius: const BorderRadius.all(Radius.circular(10.0)),
-            ),
-            Text(
-              context.t.backup_controller_page_storage_format(used: usedDiskSpace, total: totalDiskSpace),
-              style: context.textTheme.bodySmall,
-            ),
-          ],
+      return InkWell(
+        onTap: () => openPortal(kPortalStorageLink),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 12,
+            children: [
+              Text(context.t.backup_controller_page_server_storage, style: context.textTheme.labelLarge),
+              LinearProgressIndicator(
+                minHeight: 10.0,
+                value: percentage,
+                borderRadius: const BorderRadius.all(Radius.circular(10.0)),
+              ),
+              Text(
+                context.t.backup_controller_page_storage_format(used: usedDiskSpace, total: totalDiskSpace),
+                style: context.textTheme.bodySmall,
+              ),
+            ],
+          ),
         ),
       );
     }
@@ -286,6 +303,8 @@ class ImmichAppBarDialog extends HookConsumerWidget {
                   ),
                 ),
                 if (isReadonlyModeEnabled) buildReadonlyMessage(),
+                buildManageStorageButton(),
+                buildPortalButton(),
                 buildAppLogButton(),
                 buildFreeUpSpaceButton(),
                 buildSettingButton(),
