@@ -4,7 +4,7 @@ import 'package:immich_mobile/generated/translations.g.dart';
 import 'package:immich_mobile/widgets/common/immich_logo.dart';
 
 class _SplatColors {
-  static const primary = Color(0xFF4250AF);
+  static const primary = Color(0xFF6D5DD1);
   static const info = Color(0xFF3B82F6);
   static const success = Color(0xFF2FB457);
   static const warning = Color(0xFFF2A73B);
