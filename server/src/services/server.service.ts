@@ -19,13 +19,13 @@ import { UserStatsQueryResponse } from 'src/repositories/user.repository.js';
 import { BaseService } from 'src/services/base.service.js';
 import { asHumanReadable } from 'src/utils/bytes.js';
 import { mimeTypes } from 'src/utils/mime-types.js';
-import { getQuotaBytes, getUsedBytes } from 'src/utils/privohub-quota.js';
 import {
   isDuplicateDetectionEnabled,
   isFacialRecognitionEnabled,
   isOcrEnabled,
   isSmartSearchEnabled,
 } from 'src/utils/misc.js';
+import { getQuotaBytes, getUsedBytes } from 'src/utils/privohub-quota.js';
 
 @Injectable()
 export class ServerService extends BaseService {

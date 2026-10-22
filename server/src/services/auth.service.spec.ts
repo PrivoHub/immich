@@ -1205,14 +1205,14 @@ describe(AuthService.name, () => {
     });
 
     it('should sync the storage quota on subsequent logins when the claim is present', async () => {
-      const user = UserFactory.create({ oauthId: 'oauth-id', quotaSizeInBytes: 1_073_741_824 });
+      const user = UserFactory.create({ oauthId: 'oauth-id', quotaSizeInBytes: 1_000_000_000 });
 
       mocks.systemMetadata.get.mockResolvedValue(systemConfigStub.oauthWithStorageQuota);
       mocks.oauth.getProfileAndOAuthSid.mockResolvedValue({
         profile: OAuthProfileFactory.create({ sub: user.oauthId!, immich_quota: 5 }),
       });
       mocks.user.getByOAuthId.mockResolvedValue(user);
-      mocks.user.update.mockResolvedValue({ ...user, quotaSizeInBytes: 5_368_709_120 });
+      mocks.user.update.mockResolvedValue({ ...user, quotaSizeInBytes: 5_000_000_000 });
       mocks.session.create.mockResolvedValue(SessionFactory.create());
 
       await sut.callback(
@@ -1223,13 +1223,13 @@ describe(AuthService.name, () => {
 
       expect(mocks.user.syncUsage).toHaveBeenCalledWith(user.id);
       expect(mocks.user.update).toHaveBeenCalledWith(user.id, {
-        quotaSizeInBytes: 5_368_709_120,
+        quotaSizeInBytes: 5_000_000_000,
         updatedAt: expect.any(Date),
       });
     });
 
     it('should sync unlimited quota on subsequent logins when the claim is -1', async () => {
-      const user = UserFactory.create({ oauthId: 'oauth-id', quotaSizeInBytes: 1_073_741_824 });
+      const user = UserFactory.create({ oauthId: 'oauth-id', quotaSizeInBytes: 1_000_000_000 });
 
       mocks.systemMetadata.get.mockResolvedValue(systemConfigStub.oauthWithStorageQuota);
       mocks.oauth.getProfileAndOAuthSid.mockResolvedValue({
@@ -1387,7 +1387,7 @@ describe(AuthService.name, () => {
     });
 
     it('should not update claims on subsequent logins when they are absent from the profile', async () => {
-      const user = UserFactory.create({ oauthId: 'oauth-id', isAdmin: true, quotaSizeInBytes: 1_073_741_824 });
+      const user = UserFactory.create({ oauthId: 'oauth-id', isAdmin: true, quotaSizeInBytes: 1_000_000_000 });
 
       mocks.systemMetadata.get.mockResolvedValue(systemConfigStub.oauthWithStorageQuota);
       mocks.oauth.getProfileAndOAuthSid.mockResolvedValue({

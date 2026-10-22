@@ -5,7 +5,13 @@ import ImmichLayout from 'src/emails/components/immich.layout.js';
 import { WelcomeEmailProps } from 'src/repositories/email.repository.js';
 import { replaceTemplateTags } from 'src/utils/replace-template-tags.js';
 
-export const WelcomeEmail = ({ baseUrl, displayName, username, registrationUrl, customTemplate }: WelcomeEmailProps) => {
+export const WelcomeEmail = ({
+  baseUrl,
+  displayName,
+  username,
+  registrationUrl,
+  customTemplate,
+}: WelcomeEmailProps) => {
   const usableTemplateVariables = {
     displayName,
     username,
@@ -21,7 +27,9 @@ export const WelcomeEmail = ({ baseUrl, displayName, username, registrationUrl, 
         Hey <strong>{displayName}</strong>!
       </Text>
 
-      <Text>You have been invited to PrivoHub Photos. Click the button below to create your account and get started.</Text>
+      <Text>
+        You have been invited to PrivoHub Photos. Click the button below to create your account and get started.
+      </Text>
 
       <Text>
         <strong>Email</strong>: {username}
@@ -56,7 +64,8 @@ WelcomeEmail.PreviewProps = {
   baseUrl: 'https://photos-demo.privohub.com',
   displayName: 'Alan Turing',
   username: 'alanturing@example.com',
-  registrationUrl: 'https://auth.privohub.com/realms/privohub/protocol/openid-connect/registrations?client_id=immich-demo&response_type=code&redirect_uri=https://photos-demo.privohub.com',
+  registrationUrl:
+    'https://auth.privohub.com/realms/privohub/protocol/openid-connect/registrations?client_id=immich-demo&response_type=code&redirect_uri=https://photos-demo.privohub.com',
 } as WelcomeEmailProps;
 
 export default WelcomeEmail;

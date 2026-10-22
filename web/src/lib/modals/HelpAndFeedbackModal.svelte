@@ -2,13 +2,7 @@
   import PrivoHubModal from '$lib/modals/PrivoHubModal.svelte';
   import { type ServerAboutResponseDto } from '@immich/sdk';
   import { Icon, ModalBody } from '@immich/ui';
-  import {
-    mdiBugOutline,
-    mdiFaceAgent,
-    mdiGit,
-    mdiGithub,
-    mdiInformationOutline,
-  } from '@mdi/js';
+  import { mdiBugOutline, mdiFaceAgent, mdiGit, mdiGithub, mdiInformationOutline } from '@mdi/js';
   import { type SimpleIcon, siDiscord } from 'simple-icons';
   import { t } from 'svelte-i18n';
 

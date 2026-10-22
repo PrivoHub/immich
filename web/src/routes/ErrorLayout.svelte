@@ -1,17 +1,6 @@
 <script lang="ts">
   import { copyToClipboard } from '$lib/utils';
-  import {
-    Card,
-    CardBody,
-    CardFooter,
-    CardHeader,
-    CardTitle,
-    Icon,
-    IconButton,
-    Link,
-    Text,
-    VStack,
-  } from '@immich/ui';
+  import { Card, CardBody, CardFooter, CardHeader, CardTitle, Icon, IconButton, Link, Text, VStack } from '@immich/ui';
   import PrivoHubLogo from '$lib/components/shared-components/PrivoHubLogo.svelte';
   import { mdiAlarmLight, mdiCodeTags, mdiContentCopy, mdiMessage, mdiPartyPopper } from '@mdi/js';
   import { t } from 'svelte-i18n';

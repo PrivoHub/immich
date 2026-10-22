@@ -1,5 +1,5 @@
-import { applyPrivoHubLogos, PRIVOHUB_LOGOS } from '$lib/utils/privohub-logos';
 import { logoManager, Theme } from '@immich/ui';
+import { applyPrivoHubLogos, PRIVOHUB_LOGOS } from '$lib/utils/privohub-logos';
 
 const VARIANTS = ['icon', 'logo', 'inline', 'stacked', 'stacked-futo'] as const;
 

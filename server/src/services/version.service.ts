@@ -56,6 +56,10 @@ export class VersionService extends BaseService {
 
   @OnEvent({ name: 'WebsocketConnect' })
   onWebsocketConnection({ userId }: ArgOf<'WebsocketConnect'>) {
-    this.websocketRepository.clientSend('on_server_version', userId, ServerVersionResponseDto.fromSemVer(serverVersion));
+    this.websocketRepository.clientSend(
+      'on_server_version',
+      userId,
+      ServerVersionResponseDto.fromSemVer(serverVersion),
+    );
   }
 }

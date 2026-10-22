@@ -2,8 +2,8 @@ import { CronExpression } from '@nestjs/schedule';
 import { validateCronExpression } from 'cron';
 import { createZodDto } from 'nestjs-zod';
 import z from 'zod';
-import { PRIVOHUB_STORAGE_TEMPLATE } from 'src/constants.js';
 import type { DeepPartial } from 'src/types.js';
+import { PRIVOHUB_STORAGE_TEMPLATE } from 'src/constants.js';
 import {
   AudioCodec,
   AudioCodecSchema,
