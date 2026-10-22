@@ -109,15 +109,16 @@ ARG BUILD_IMAGE
 ARG BUILD_SOURCE_REF
 ARG BUILD_SOURCE_COMMIT
 
+# No CI builds this image, so there is no build page: without IMMICH_BUILD_URL
+# the About dialog leaves the Build row out. Repository and source point at
+# this fork; BUILD_SOURCE_COMMIT is a commit of this repository.
 ENV IMMICH_BUILD=${BUILD_ID}
-ENV IMMICH_BUILD_URL=https://github.com/immich-app/immich/actions/runs/${BUILD_ID}
 ENV IMMICH_BUILD_IMAGE=${BUILD_IMAGE}
-ENV IMMICH_BUILD_IMAGE_URL=https://github.com/immich-app/immich/pkgs/container/immich-server
-ENV IMMICH_REPOSITORY=immich-app/immich
-ENV IMMICH_REPOSITORY_URL=https://github.com/immich-app/immich
+ENV IMMICH_REPOSITORY=PrivoHub/immich
+ENV IMMICH_REPOSITORY_URL=https://git.privohub.com/PrivoHub/immich
 ENV IMMICH_SOURCE_REF=${BUILD_SOURCE_REF}
 ENV IMMICH_SOURCE_COMMIT=${BUILD_SOURCE_COMMIT}
-ENV IMMICH_SOURCE_URL=https://github.com/immich-app/immich/commit/${BUILD_SOURCE_COMMIT}
+ENV IMMICH_SOURCE_URL=https://git.privohub.com/PrivoHub/immich/commit/${BUILD_SOURCE_COMMIT}
 
 VOLUME /data
 EXPOSE 2283
