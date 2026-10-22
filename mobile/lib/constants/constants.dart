@@ -46,7 +46,7 @@ const int kMinMonthsToEnableScrubberSnap = 12;
 // out-of-date app is sent to the help page until the store listings exist.
 const String kHelpLink = "https://privohub.com/help/photos";
 const String kSupportEmailLink = "mailto:support@privohub.com";
-const String kSourceCodeLink = "https://github.com/PrivoHub/immich";
+const String kSourceCodeLink = "https://git.privohub.com/PrivoHub/immich";
 const String kAppUpdateLink = kHelpLink;
 // Storage, subscription, members and the account are managed in the PrivoHub portal.
 const String kPortalLink = "https://privohub.com/portal";
