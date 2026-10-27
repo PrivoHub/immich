@@ -10,6 +10,7 @@
   import { navigate } from '$lib/utils/navigation';
   import { sharedLinkLogin, SharedLinkType, type AssetResponseDto, type SharedLinkResponseDto } from '@immich/sdk';
   import PrivoHubLogo from '$lib/components/shared-components/PrivoHubLogo.svelte';
+  import { SITE_URL } from '$lib/utils/privohub';
   import { Button, PasswordInput } from '@immich/ui';
   import { onDestroy, tick } from 'svelte';
   import { t } from 'svelte-i18n';
@@ -94,7 +95,7 @@
   <header>
     <ControlAppBar>
       {#snippet leading()}
-        <a data-sveltekit-preload-data="hover" class="ms-4" href="/">
+        <a data-sveltekit-preload-data="hover" class="ms-4" href={authManager.authenticated ? '/' : SITE_URL}>
           <PrivoHubLogo variant="inline" />
         </a>
       {/snippet}

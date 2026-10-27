@@ -18,6 +18,8 @@
   import { fileUploadHandler, openFileUploadDialog } from '$lib/utils/file-uploader';
   import type { AlbumResponseDto, SharedLinkResponseDto } from '@immich/sdk';
   import PrivoHubLogo from '$lib/components/shared-components/PrivoHubLogo.svelte';
+  import { SITE_URL } from '$lib/utils/privohub';
+  import { authManager } from '$lib/managers/auth-manager.svelte';
   import { ActionButton, IconButton } from '@immich/ui';
   import { mdiDownload, mdiFileImagePlusOutline, mdiPresentationPlay } from '@mdi/js';
   import { t } from 'svelte-i18n';
@@ -108,7 +110,7 @@
   {:else}
     <ControlAppBar>
       {#snippet leading()}
-        <a data-sveltekit-preload-data="hover" class="ms-4" href="/">
+        <a data-sveltekit-preload-data="hover" class="ms-4" href={authManager.authenticated ? '/' : SITE_URL}>
           <PrivoHubLogo variant={mediaQueryManager.maxMd ? 'icon' : 'inline'} class="min-w-10" />
         </a>
       {/snippet}

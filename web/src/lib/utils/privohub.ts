@@ -10,6 +10,13 @@
  */
 const PORTAL_URL = 'https://privohub.com/portal';
 
+/**
+ * The public site. Where the logo on a shared link takes a visitor who is not
+ * signed in to this workspace: nothing here is theirs to go back to, and this
+ * host's root is only a sign-in page they cannot use.
+ */
+export const SITE_URL = 'https://privohub.com';
+
 export const portalUrl = (suffix = '') => `${PORTAL_URL}${suffix}`;
 
 export const openPortal = (suffix = '') => {
