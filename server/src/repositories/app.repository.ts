@@ -5,6 +5,7 @@ import { Server as SocketIO } from 'socket.io';
 import { ExitCode } from 'src/enum.js';
 import { ConfigRepository } from 'src/repositories/config.repository.js';
 import { AppRestartEvent } from 'src/repositories/event.repository.js';
+import { socketIoKey } from 'src/utils/privohub-socket-io.js';
 
 @Injectable()
 export class AppRepository {
@@ -31,7 +32,7 @@ export class AppRepository {
 
     await Promise.all([pubClient.connect(), subClient.connect()]);
 
-    server.adapter(createAdapter(pubClient, subClient));
+    server.adapter(createAdapter(pubClient, subClient, { key: socketIoKey(redis) }));
 
     // => corresponds to notification.service.ts#onAppRestart
     server.emit('AppRestartV1', state, async () => {

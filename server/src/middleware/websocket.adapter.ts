@@ -4,6 +4,7 @@ import { createAdapter } from '@socket.io/redis-adapter';
 import { Redis } from 'ioredis';
 import { ServerOptions } from 'socket.io';
 import { ConfigRepository } from 'src/repositories/config.repository.js';
+import { socketIoKey } from 'src/utils/privohub-socket-io.js';
 
 export class WebSocketAdapter extends IoAdapter {
   constructor(private app: INestApplicationContext) {
@@ -15,7 +16,7 @@ export class WebSocketAdapter extends IoAdapter {
     const server = super.createIOServer(port, options);
     const pubClient = new Redis(redis);
     const subClient = pubClient.duplicate();
-    server.adapter(createAdapter(pubClient, subClient));
+    server.adapter(createAdapter(pubClient, subClient, { key: socketIoKey(redis) }));
     return server;
   }
 }
