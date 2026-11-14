@@ -1,6 +1,7 @@
 import {
   CanActivate,
   ExecutionContext,
+  ForbiddenException,
   Injectable,
   SetMetadata,
   applyDecorators,
@@ -13,6 +14,7 @@ import { AuthDto } from 'src/dtos/auth.dto.js';
 import { ApiCustomExtension, ImmichQuery, MetadataKey, Permission } from 'src/enum.js';
 import { LoggingRepository } from 'src/repositories/logging.repository.js';
 import { AuthService, LoginDetails } from 'src/services/auth.service.js';
+import { isPrivohubRouteBlocked } from 'src/utils/privohub-lockdown.js';
 import { getUserAgentDetails } from 'src/utils/request.js';
 
 type AdminRoute = { admin?: true };
@@ -100,6 +102,10 @@ export class AuthGuard implements CanActivate {
     const options = getAuthenticatedOptions(this.reflector, context.getHandler());
     if (!options) {
       throw new Error(`Route ${context.getHandler().name} does not declare @Authenticated()`);
+    }
+
+    if (isPrivohubRouteBlocked(context.getClass().name, context.getHandler().name, !!options.admin)) {
+      throw new ForbiddenException('This feature is not available on PrivoHub Photos');
     }
 
     if (options.setup) {

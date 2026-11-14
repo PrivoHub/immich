@@ -6,6 +6,7 @@ import { ApiTag, Permission } from 'src/enum.js';
 import { Authenticated } from 'src/middleware/auth.guard.js';
 import { StorageTemplateService } from 'src/services/storage-template.service.js';
 import { SystemConfigService } from 'src/services/system-config.service.js';
+import { redactAdminConfig, restrictAdminConfigUpdate } from 'src/utils/privohub-lockdown.js';
 
 @ApiTags(ApiTag.SystemConfig)
 @Controller('system-config')
@@ -26,8 +27,8 @@ export class SystemConfigController {
       .stable('v2')
       .deprecated('v3.2.0', { replacementId: 'getAdminConfig' }),
   })
-  getConfig(): Promise<AdminConfigDto> {
-    return this.service.getAdminConfig();
+  async getConfig(): Promise<AdminConfigDto> {
+    return redactAdminConfig(await this.service.getAdminConfig());
   }
 
   @Get('defaults')
@@ -56,8 +57,9 @@ export class SystemConfigController {
       .stable('v2')
       .deprecated('v3.2.0', { replacementId: 'updateAdminConfig' }),
   })
-  updateConfig(@Body() dto: AdminConfigDto): Promise<AdminConfigDto> {
-    return this.service.updateAdminConfig(dto);
+  async updateConfig(@Body() dto: AdminConfigDto): Promise<AdminConfigDto> {
+    const current = await this.service.getAdminConfig();
+    return redactAdminConfig(await this.service.updateAdminConfig(restrictAdminConfigUpdate(current, dto)));
   }
 
   @Get('storage-template-options')

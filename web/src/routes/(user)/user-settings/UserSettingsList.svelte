@@ -1,13 +1,10 @@
 <script lang="ts">
-  import { page } from '$app/stores';
   import ChangePinCodeSettings from './PinCodeSettings.svelte';
   import DownloadSettings from './DownloadSettings.svelte';
   import FeatureSettings from './FeatureSettings.svelte';
   import NotificationsSettings from './NotificationsSettings.svelte';
   import UserUsageStatistic from './UserUsageStatistic.svelte';
-  import { OpenQueryParam, QueryParameter } from '$lib/constants';
-  import { featureFlagsManager } from '$lib/managers/feature-flags-manager.svelte';
-  import { oauth } from '$lib/utils';
+  import { OpenQueryParam } from '$lib/constants';
   import { type ApiKeyResponseDto, type SessionResponseDto } from '@immich/sdk';
   import {
     mdiAccountGroupOutline,
@@ -18,17 +15,13 @@
     mdiDevices,
     mdiDownload,
     mdiFeatureSearchOutline,
-    mdiFormTextboxPassword,
     mdiLockSmart,
     mdiServerOutline,
-    mdiTwoFactorAuthentication,
   } from '@mdi/js';
   import { t } from 'svelte-i18n';
   import SettingAccordion from '$lib/components/shared-components/settings/SettingAccordion.svelte';
   import AppSettings from './AppSettings.svelte';
-  import ChangePasswordSettings from './ChangePasswordSettings.svelte';
   import DeviceList from './DeviceList.svelte';
-  import OauthSettings from './OauthSettings.svelte';
   import SharingSettings from './SharingSettings.svelte';
   import UserApiKeyList from './UserApiKeyList.svelte';
   import UserProfileSettings from './UserProfileSettings.svelte';
@@ -39,9 +32,6 @@
   }
 
   let { keys = $bindable([]), sessions = $bindable([]) }: Props = $props();
-
-  let oauthOpen =
-    oauth.isCallback(location) || $page.url.searchParams.get(QueryParameter.OPEN_SETTING) === OpenQueryParam.OAUTH;
 </script>
 
 <SettingAccordion
@@ -104,27 +94,6 @@
   subtitle={$t('notifications_setting_description')}
 >
   <NotificationsSettings />
-</SettingAccordion>
-
-{#if featureFlagsManager.value.oauth}
-  <SettingAccordion
-    icon={mdiTwoFactorAuthentication}
-    key={OpenQueryParam.OAUTH}
-    title={$t('oauth')}
-    subtitle={$t('manage_your_oauth_connection')}
-    isOpen={oauthOpen || undefined}
-  >
-    <OauthSettings />
-  </SettingAccordion>
-{/if}
-
-<SettingAccordion
-  icon={mdiFormTextboxPassword}
-  key="password"
-  title={$t('password')}
-  subtitle={$t('change_your_password')}
->
-  <ChangePasswordSettings />
 </SettingAccordion>
 
 <SettingAccordion

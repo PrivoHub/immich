@@ -71,7 +71,7 @@
     { from: 0.95, className: 'bg-danger' },
   ];
 
-  const { ResetPassword, ResetPinCode, Update, Delete, Restore } = $derived(getUserAdminActions($t, user));
+  const { ResetPinCode, Update, Delete, Restore } = $derived(getUserAdminActions($t, user));
 
   const onUpdate = async (update: UserAdminResponseDto) => {
     if (update.id !== user.id) {
@@ -96,11 +96,11 @@
   {onUserAdminDeleted}
 />
 
-<CommandPaletteDefaultProvider name={$t('user')} actions={[ResetPassword, ResetPinCode, Update, Delete, Restore]} />
+<CommandPaletteDefaultProvider name={$t('user')} actions={[ResetPinCode, Update, Delete, Restore]} />
 
 <AdminPageLayout
   breadcrumbs={[{ title: $t('admin.user_management'), href: Route.users() }, { title: user.name }]}
-  actions={[ResetPassword, ResetPinCode, Update, Restore, MenuItemType.Divider, Delete]}
+  actions={[ResetPinCode, Update, Restore, MenuItemType.Divider, Delete]}
 >
   <div>
     <Container size="large" center>

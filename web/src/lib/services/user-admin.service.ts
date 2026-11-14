@@ -12,7 +12,6 @@ import {
   mdiAccountMultipleOutline,
   mdiDeleteRestore,
   mdiInformationOutline,
-  mdiLockReset,
   mdiLockSmart,
   mdiPencilOutline,
   mdiTrashCanOutline,
@@ -23,7 +22,6 @@ import { goto } from '$app/navigation';
 import { authManager } from '$lib/managers/auth-manager.svelte';
 import { eventManager } from '$lib/managers/event-manager.svelte';
 import { serverConfigManager } from '$lib/managers/server-config-manager.svelte';
-import PasswordResetSuccessModal from '$lib/modals/PasswordResetSuccessModal.svelte';
 import UserDeleteConfirmModal from '$lib/modals/UserDeleteConfirmModal.svelte';
 import UserRestoreConfirmModal from '$lib/modals/UserRestoreConfirmModal.svelte';
 import { Route } from '$lib/route';
@@ -82,20 +80,13 @@ export const getUserAdminActions = ($t: MessageFormatter, user: UserAdminRespons
     onAction: () => modalManager.show(UserRestoreConfirmModal, { user }),
   };
 
-  const ResetPassword: ActionItem = {
-    icon: mdiLockReset,
-    title: $t('reset_password'),
-    $if: () => authManager.user.id !== user.id,
-    onAction: () => handleResetPasswordUserAdmin(user),
-  };
-
   const ResetPinCode: ActionItem = {
     icon: mdiLockSmart,
     title: $t('reset_pin_code'),
     onAction: () => handleResetPinCodeUserAdmin(user),
   };
 
-  return { Detail, Update, Delete, Restore, ResetPassword, ResetPinCode };
+  return { Detail, Update, Delete, Restore, ResetPinCode };
 };
 
 export const handleUpdateUserAdmin = async (user: UserAdminResponseDto, dto: UserAdminUpdateDto) => {
@@ -136,42 +127,6 @@ export const handleRestoreUserAdmin = async (user: UserAdminResponseDto) => {
   } catch (error) {
     handleError(error, $t('errors.unable_to_restore_user'));
     return false;
-  }
-};
-
-// TODO move password reset server-side
-const generatePassword = (length: number = 16) => {
-  let generatedPassword = '';
-
-  const characterSet = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ,.-{}+!#$%/()=?';
-
-  for (let i = 0; i < length; i++) {
-    let randomNumber = crypto.getRandomValues(new Uint32Array(1))[0];
-    randomNumber /= 2 ** 32;
-    randomNumber = Math.floor(randomNumber * characterSet.length);
-
-    generatedPassword += characterSet[randomNumber];
-  }
-
-  return generatedPassword;
-};
-
-const handleResetPasswordUserAdmin = async (user: UserAdminResponseDto) => {
-  const $t = await getFormatter();
-  const prompt = $t('admin.confirm_user_password_reset', { values: { user: user.name } });
-  const success = await modalManager.showDialog({ prompt });
-  if (!success) {
-    return;
-  }
-
-  try {
-    const dto = { password: generatePassword(), shouldChangePassword: true };
-    const response = await updateUserAdmin({ id: user.id, userAdminUpdateDto: dto });
-    eventManager.emit('UserAdminUpdate', response);
-    toastManager.primary();
-    await modalManager.show(PasswordResetSuccessModal, { newPassword: dto.password });
-  } catch (error) {
-    handleError(error, $t('errors.unable_to_reset_password'));
   }
 };
 

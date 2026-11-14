@@ -50,8 +50,8 @@
   const { ManageAccess } = $derived(getUserAdminsActions($t));
 
   const getActionsForUser = (user: UserAdminResponseDto) => {
-    const { Detail, Update, Delete, ResetPassword, ResetPinCode } = getUserAdminActions($t, user);
-    return [Detail, Update, ResetPassword, ResetPinCode, MenuItemType.Divider, Delete];
+    const { Detail, Update, Delete, ResetPinCode } = getUserAdminActions($t, user);
+    return [Detail, Update, ResetPinCode, MenuItemType.Divider, Delete];
   };
 
   const classes = {

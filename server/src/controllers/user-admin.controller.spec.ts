@@ -1,6 +1,5 @@
 import request from 'supertest';
 import { UserAdminController } from 'src/controllers/user-admin.controller.js';
-import { UserAdminCreateDto } from 'src/dtos/user.dto.js';
 import { LoggingRepository } from 'src/repositories/logging.repository.js';
 import { UserAdminService } from 'src/services/user-admin.service.js';
 import { errorDto } from 'test/medium/responses.js';
@@ -25,61 +24,12 @@ describe(UserAdminController.name, () => {
   });
 
   describe('POST /admin/users', () => {
-    it('should allow a null pinCode', async () => {
-      await request(ctx.getHttpServer()).post(`/admin/users`).send({
-        name: 'Test user',
-        email: 'test@immich.cloud',
-        password: 'password',
-        pinCode: null,
-      });
-      expect(service.create).toHaveBeenCalledWith(expect.objectContaining({ pinCode: null }));
-    });
-
-    it('should allow a null avatarColor', async () => {
-      await request(ctx.getHttpServer()).post(`/admin/users`).send({
-        name: 'Test user',
-        email: 'test@immich.cloud',
-        password: 'password',
-        avatarColor: null,
-      });
-      expect(service.create).toHaveBeenCalledWith(expect.objectContaining({ avatarColor: null }));
-    });
-
-    for (const [key, message] of [
-      ['password', 'Invalid input: expected string, received null'],
-      ['email', 'Invalid input: expected email, received object'],
-      ['name', 'Invalid input: expected string, received null'],
-      ['shouldChangePassword', 'Invalid input: expected boolean, received null'],
-      ['notify', 'Invalid input: expected boolean, received null'],
-    ] as const) {
-      it(`should not allow null ${key}`, async () => {
-        const { status, body } = await request(ctx.getHttpServer())
-          .post(`/admin/users`)
-          .set('Authorization', `Bearer token`)
-          .send({ email: 'user@immich.app', password: 'test', name: 'Test User', [key]: null });
-        expect(status).toBe(400);
-        expect(body).toEqual(errorDto.validationError([{ path: [key], message }]));
-      });
-    }
-
-    it(`should not allow decimal quota`, async () => {
-      const dto: UserAdminCreateDto = {
-        email: 'user@immich.app',
-        password: 'test',
-        name: 'Test User',
-        quotaSizeInBytes: 1.2,
-      };
-
-      const { status, body } = await request(ctx.getHttpServer())
+    it('is not available, people are added in the PrivoHub portal', async () => {
+      const { status } = await request(ctx.getHttpServer())
         .post(`/admin/users`)
-        .set('Authorization', `Bearer token`)
-        .send(dto);
-      expect(status).toBe(400);
-      expect(body).toEqual(
-        errorDto.validationError([
-          { path: ['quotaSizeInBytes'], message: 'Invalid input: expected int, received number' },
-        ]),
-      );
+        .send({ name: 'Test user', email: 'test@immich.cloud', password: 'password' });
+      expect(status).toBe(403);
+      expect(service.create).not.toHaveBeenCalled();
     });
   });
 
@@ -101,6 +51,22 @@ describe(UserAdminController.name, () => {
       const id = factory.uuid();
       await request(ctx.getHttpServer()).put(`/admin/users/${id}`).send({ pinCode: null });
       expect(service.update).toHaveBeenCalledWith(undefined, id, expect.objectContaining({ pinCode: null }));
+    });
+
+    it('should refuse a password', async () => {
+      const { status } = await request(ctx.getHttpServer())
+        .put(`/admin/users/${factory.uuid()}`)
+        .send({ password: 'password' });
+      expect(status).toBe(400);
+      expect(service.update).not.toHaveBeenCalled();
+    });
+
+    it('should refuse setting a pinCode', async () => {
+      const { status } = await request(ctx.getHttpServer())
+        .patch(`/admin/users/${factory.uuid()}`)
+        .send({ pinCode: '123456' });
+      expect(status).toBe(400);
+      expect(service.update).not.toHaveBeenCalled();
     });
 
     it('should allow a null avatarColor', async () => {

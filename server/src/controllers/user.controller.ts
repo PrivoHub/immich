@@ -31,6 +31,7 @@ import { FileUploadInterceptor } from 'src/middleware/file-upload.interceptor.js
 import { LoggingRepository } from 'src/repositories/logging.repository.js';
 import { UserService } from 'src/services/user.service.js';
 import { sendFile } from 'src/utils/file.js';
+import { assertPrivohubUserUpdate } from 'src/utils/privohub-lockdown.js';
 import { UUIDParamDto } from 'src/validation.js';
 
 @ApiTags(ApiTag.Users)
@@ -86,6 +87,7 @@ export class UserController {
       .deprecated('v3', { replacementId: 'updateMyUser' }),
   })
   updateMyUser(@Auth() auth: AuthDto, @Body() dto: UserUpdateMeDto): Promise<UserAdminResponseDto> {
+    assertPrivohubUserUpdate(dto);
     return this.service.updateMe(auth, dto);
   }
 
@@ -93,6 +95,7 @@ export class UserController {
   @ApiExcludeEndpoint()
   @Authenticated({ permission: Permission.UserUpdate })
   updateMyUserV3(@Auth() auth: AuthDto, @Body() dto: UserUpdateMeDto): Promise<UserAdminResponseDto> {
+    assertPrivohubUserUpdate(dto);
     return this.service.updateMe(auth, dto);
   }
 

@@ -21,11 +21,12 @@ describe(NotificationAdminController.name, () => {
   });
 
   describe('POST /admin/notifications', () => {
-    it('should accept a null readAt', async () => {
-      await request(ctx.getHttpServer())
+    it('should be refused', async () => {
+      const { status } = await request(ctx.getHttpServer())
         .post(`/admin/notifications`)
         .send({ title: 'Test', userId: factory.uuid(), readAt: null });
-      expect(service.create).toHaveBeenCalledWith(undefined, expect.objectContaining({ readAt: null }));
+      expect(status).toBe(403);
+      expect(service.create).not.toHaveBeenCalled();
     });
   });
 });

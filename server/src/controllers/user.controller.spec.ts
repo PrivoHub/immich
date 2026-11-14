@@ -44,6 +44,15 @@ describe(UserController.name, () => {
         .send({ avatarColor: null });
       expect(service.updateMe).toHaveBeenCalledWith(undefined, expect.objectContaining({ avatarColor: null }));
     });
+
+    it('should refuse a password', async () => {
+      const { status } = await request(ctx.getHttpServer())
+        .patch(`/users/me`)
+        .set('Authorization', `Bearer token`)
+        .send({ password: 'password' });
+      expect(status).toBe(400);
+      expect(service.updateMe).not.toHaveBeenCalled();
+    });
   });
 
   describe('PUT /users/me/preferences', () => {

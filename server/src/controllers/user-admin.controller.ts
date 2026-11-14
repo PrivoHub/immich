@@ -16,6 +16,7 @@ import {
 import { ApiTag, Permission } from 'src/enum.js';
 import { Auth, Authenticated } from 'src/middleware/auth.guard.js';
 import { UserAdminService } from 'src/services/user-admin.service.js';
+import { assertPrivohubUserAdminUpdate } from 'src/utils/privohub-lockdown.js';
 import { UUIDParamDto } from 'src/validation.js';
 
 @ApiTags(ApiTag.UsersAdmin)
@@ -72,6 +73,7 @@ export class UserAdminController {
     @Param() { id }: UUIDParamDto,
     @Body() dto: UserAdminUpdateDto,
   ): Promise<UserAdminResponseDto> {
+    assertPrivohubUserAdminUpdate(dto);
     return this.service.update(auth, id, dto);
   }
 
@@ -83,6 +85,7 @@ export class UserAdminController {
     @Param() { id }: UUIDParamDto,
     @Body() dto: UserAdminUpdateDto,
   ): Promise<UserAdminResponseDto> {
+    assertPrivohubUserAdminUpdate(dto);
     return this.service.update(auth, id, dto);
   }
 

@@ -5,6 +5,7 @@ import { AdminConfigDto } from 'src/dtos/config.dto.js';
 import { ApiTag, Permission } from 'src/enum.js';
 import { Authenticated } from 'src/middleware/auth.guard.js';
 import { SystemConfigService } from 'src/services/system-config.service.js';
+import { redactAdminConfig, restrictAdminConfigUpdate } from 'src/utils/privohub-lockdown.js';
 
 @ApiTags(ApiTag.ConfigAdmin)
 @Controller('admin/config')
@@ -18,8 +19,8 @@ export class ConfigAdminController {
     description: 'Retrieve admin configuration.',
     history: new HistoryBuilder().added('v3.2.0').alpha('v3.2.0'),
   })
-  getAdminConfig(): Promise<AdminConfigDto> {
-    return this.service.getAdminConfig();
+  async getAdminConfig(): Promise<AdminConfigDto> {
+    return redactAdminConfig(await this.service.getAdminConfig());
   }
 
   @Get('defaults')
@@ -40,7 +41,8 @@ export class ConfigAdminController {
     description: 'Update the system configuration with a new system configuration.',
     history: new HistoryBuilder().added('v3.2.0').alpha('v3.2.0'),
   })
-  updateAdminConfig(@Body() dto: AdminConfigDto): Promise<AdminConfigDto> {
-    return this.service.updateAdminConfig(dto);
+  async updateAdminConfig(@Body() dto: AdminConfigDto): Promise<AdminConfigDto> {
+    const current = await this.service.getAdminConfig();
+    return redactAdminConfig(await this.service.updateAdminConfig(restrictAdminConfigUpdate(current, dto)));
   }
 }
